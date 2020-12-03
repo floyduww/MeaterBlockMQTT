@@ -4,6 +4,7 @@ import binascii
 import re
 import paho.mqtt.client as mqtt
 import math
+from string import Template
 
 temp_regex = r"08 ([a-f0-9]{2} ){2}10 [a-f0-9]{2} [a-f0-9]{2} 18"
 parts_split = r"1a [a-f0-9]{2} 0a"
@@ -43,6 +44,14 @@ mqttc.connect("MQTT.HOSTNAME", 1883, 60)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(('', 7878))
 
+
+topicCook = Template("meater/probe/$id/cook")
+topicBattery = Template("meater/probe/$id/battery")
+topicMeatType = Template("meater/probe/$id/meatType")
+topicTargetTemp = Template("meater/probe/$id/targetTemp")
+topicMeat = Template("meater/probe/$id/meat")
+topicAmbient = Template("meater/probe/$id/ambient")
+
 while(1):
     m = s.recvfrom(4096)
     print("-----------------")
@@ -69,13 +78,10 @@ while(1):
             battery = int(part[67:69])  # byte 23
 
             print("\tCook : " + cooking)
+            mqttc.publish(topicCook.substitute(id=id), cooking, qos=0, retain=True)
+
             print("\tBatt : {level}".format(level=battery))
-
-            topicCook = "meater/probe/" + id + "/cook"
-            mqttc.publish(topicCook, cooking, qos=0, retain=True)
-
-            topicBattery = "meater/probe/" + id + "/battery"
-            mqttc.publish(topicBattery, battery, qos=0, retain=True)
+            mqttc.publish(topicBattery.substitute(id=id), battery, qos=0, retain=True)
 
             if cooking != "00":
                 targetTempHex = part[103:108]  # bytes 35-36
@@ -83,18 +89,14 @@ while(1):
                 meatTypeHex = part[112:114]  # bytes 38
 
                 print("\tType : " + meatTypeHex)
-                topicMeatType = "meater/probe/" + id + "/meatType"
-                mqttc.publish(topicMeatType, meatTypeHex, qos=0, retain=True)
+                mqttc.publish(topicMeatType.substitute(id=id), meatTypeHex, qos=0, retain=True)
 
                 print("\tTarg : " + str(targetTemp))
-                topicTargetTemp = "meater/probe/" + id + "/targetTemp"
-                mqttc.publish(topicTargetTemp, str(targetTemp), qos=0, retain=True)
-            else:
-                topicMeatType = "meater/probe/" + id + "/meatType"
-                mqttc.publish(topicMeatType, '00', qos=0, retain=True)
+                mqttc.publish(topicTargetTemp.substitute(id=id), str(targetTemp), qos=0, retain=True)
 
-                topicTargetTemp = "meater/probe/" + id + "/targetTemp"
-                mqttc.publish(topicTargetTemp, 0, qos=0, retain=True)
+            else:
+                mqttc.publish(topicMeatType.substitute(id=id), '00', qos=0, retain=True)
+                mqttc.publish(topicTargetTemp.substitute(id=id), 0, qos=0, retain=True)
 
             matches = re.finditer(temp_regex, part, re.MULTILINE)
 
@@ -103,12 +105,10 @@ while(1):
                 ambF = toFahrenheit(convertHex(match.group()[12:17]))
 
                 print("\tmeat : {temp} {hex} {tempF}F".format(temp=convertHex(match.group()[3:8]), hex=match.group()[3:8], tempF=meatF))
-                topicMeat = "meater/probe/" + id + "/meat"
-                mqttc.publish(topicMeat, math.floor(meatF), qos=0, retain=True)
+                mqttc.publish(topicMeat.substitute(id=id), math.floor(meatF), qos=0, retain=True)
 
                 print("\tamb  : {temp} {hex} {tempF}F".format(temp=convertHex(match.group()[12:17]), hex=match.group()[12:17], tempF=ambF))
-                topicAmbient = "meater/probe/" + id + "/ambient"
-                mqttc.publish(topicAmbient, math.floor(ambF), qos=0, retain=True)
+                mqttc.publish(topicAmbient.substitute(id=id), math.floor(ambF), qos=0, retain=True)
 
         elif part[-30:][0:2] == "09":   # this is the block
             version = part[-27:]
