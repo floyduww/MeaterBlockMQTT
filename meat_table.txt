@@ -2,6 +2,7 @@
 03: Sirloin Steak
 04: Flank Steak
 08: Tomahawk Steak
+0a: Fliet Mignon
 0f: Beef Brisket
 11: Beef Tenderloin
 26: Pork Shoulder
