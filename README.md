@@ -47,7 +47,7 @@ Cooking
                                                                                     bc -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -|       
 bc (rest of packet)                                                                                                  bc -- -- -- -- -- -- -- -- -|                                                          bc -- -- -- -- -- -- -- -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -|
       probe mac address -- -|    block mac address -- -|    p#    bat   sig   ?  -|       adj   on    temp     mt       Cook Name-- -- -- -- -- -| ?- -- -- -- -- -- -- -- -|    session number?-- -- -|          m tmp    a tmp    pt -|    ?     ct -|       probe version  -| _  p#
-5c 09 00 e3 1a ae b6 25 25 67 11 d0 17 34 19 1d c7 f8 d2 18 04 20 07 28 37 30 01 3a 26 08 04 10 01 18 f3 08 20 0f 2a 09 62 72 69 73 6b 65 74 20 31 32 07 08 05 10 01 18 d8 04 39 9d dd 85 55 60 3d d3 60 42 0e 08 b0 05 10 b0 05 18 b0 05 20 01 28 b0 0d 4a 08 76 31 2e 30 2e 35 5f 34 
+5c 09 00 e3 1a ae b6 25 25 67 11 d0 17 34 19 1d c7 f8 d2 18 04 20 07 28 37 30 01 3a 26 08 04 10 01 18 f3 08 20 0f 2a 09 62 72 69 73 6b 65 74 20 31 32 07 08 05 10 01 18 d8 04 39 9d dd 85 55 60 3d d3 60 42 0e 08 b0 05 10 b0 05 18 b0 05 20 01 28 b0 0d 4a 08 76 31 2e 30 2e 35 5f 34
 52 09 1a a0 f1 76 21 5a a4 42 11 d0 17 34 19 1d c7 f8 d2 18 02 20 06 28 4f 30 01 3a 1d 08 01 10 01 18 95 07 20 11 2a 00                            32 07 08 05 10 01 18 d8 04 39 ab 78 ee 71 9a 2f aa 60 42 0d 08 b6 05 10 b6 05 18 b8 05 20 01 28 19    4a 08 76 31 2e 30 2e 35 5f 32
 53 09 1a a0 f1 76 21 5a a4 42 11 d0 17 34 19 1d c7 f8 d2 18 02 20 06 28 51 30 01 3a 1d 08 01 10 01 18 95 07 20 11 2a 00                            32 07 08 05 10 01 18 d8 04 39 ab 78 ee 71 9a 2f aa 60 42 0e 08 b6 05 10 b6 05 18 b8 05 20 01 28 87 0e 4a 08 76 31 2e 30 2e 35 5f 32
 59 09 1a a0 f1 76 21 5a a4 42 11 d0 17 34 19 1d c7 f8 d2 18 02 20 06 28 4f 30 01 3a 23 08 02 10 01 18 95 07 20 11 2a 06 63 75 73 74 6f 6d          32 07 08 05 10 01 18 d8 04 39 ab 78 ee 71 9a 2f aa 60 42 0e 08 b6 05 10 b6 05 18 b8 05 20 01 28 db 0e 4a 08 76 31 2e 30 2e 35 5f 32
@@ -100,6 +100,7 @@ mqtt topics
 meater/probe/{id}/meatType  
 meater/probe/{id}/targetTemp  
 meater/probe/{id}/cook  
+meater/probe/{id}/cookName
 meater/probe/{id}/battery  
 meater/probe/{id}/meat  
 meater/probe/{id}/ambient
