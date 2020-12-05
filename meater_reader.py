@@ -35,9 +35,18 @@ def on_publish(client, userdata, mid):
     return True
 
 
+def on_disconnect(mqttc, userdata, rc):
+    if rc != 0:
+        print("Unexpected disconnection. Reconnecting...")
+        mqttc.reconnect()
+    else:
+        print("Disconnected successfully")
+
+
 # mqtt setup and connect
 mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
+mqttc.on_disconnect = on_disconnect
 mqttc.connect("MQTT.HOSTNAME", 1883, 60)
 
 # udp socket to listen to
@@ -52,6 +61,8 @@ topicTargetTemp = Template("meater/probe/$id/targetTemp")
 topicMeat = Template("meater/probe/$id/meat")
 topicAmbient = Template("meater/probe/$id/ambient")
 topicCookName = Template("meater/probe/$id/cookName")
+
+mqttc.loop_start()
 
 while(1):
     m = s.recvfrom(4096)
@@ -118,7 +129,6 @@ while(1):
 
                 print("\tTarg : " + str(targetTemp))
                 mqttc.publish(topicTargetTemp.substitute(id=id), str(targetTemp), qos=0, retain=True)
-
 
             else:
                 mqttc.publish(topicCookName.substitute(id=id), '', qos=0, retain=True)
