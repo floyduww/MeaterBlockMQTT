@@ -44,13 +44,14 @@ mqttc.connect("MQTT.HOSTNAME", 1883, 60)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(('', 7878))
 
-
+# mqtt topics
 topicCook = Template("meater/probe/$id/cook")
 topicBattery = Template("meater/probe/$id/battery")
 topicMeatType = Template("meater/probe/$id/meatType")
 topicTargetTemp = Template("meater/probe/$id/targetTemp")
 topicMeat = Template("meater/probe/$id/meat")
 topicAmbient = Template("meater/probe/$id/ambient")
+topicCookName = Template("meater/probe/$id/cookName")
 
 while(1):
     m = s.recvfrom(4096)
@@ -86,7 +87,28 @@ while(1):
             if cooking != "00":
                 targetTempHex = part[103:108]  # bytes 35-36
                 targetTemp = math.floor(toFahrenheit(convertHex2(targetTempHex)))
-                meatTypeHex = part[112:114]  # bytes 38
+                meatTypeHex = part[112:114]  # bytes 38 or 38/39
+
+                cookNamePos = 0
+                if part[115:117] == "2a":
+                    cookNameLenthHex = part[118:120]
+                    cookNamePos = 40
+                elif part[118:120] == "2a":
+                    cookNameLenthHex = part[121:123]
+                    cookNamePos = 41
+                    meatTypeHex = part[112:117]  # bytes 38 or 38/39
+
+                cookNameLenthInt = int(cookNameLenthHex, 16)
+                print("\tCookLen : " + str(cookNameLenthInt))
+
+                cookNameStart = cookNamePos*3
+                cookNameEnd = cookNamePos*3 + cookNameLenthInt*3
+                cookNameHex = part[cookNameStart:cookNameEnd]
+                cookNameBytes = bytes.fromhex(cookNameHex)
+                cookName = cookNameBytes.decode("ASCII")
+
+                print("\tName : " + cookName)
+                mqttc.publish(topicCookName.substitute(id=id), cookName, qos=0, retain=True)
 
                 print("\tType : " + meatTypeHex)
                 mqttc.publish(topicMeatType.substitute(id=id), meatTypeHex, qos=0, retain=True)
@@ -94,7 +116,9 @@ while(1):
                 print("\tTarg : " + str(targetTemp))
                 mqttc.publish(topicTargetTemp.substitute(id=id), str(targetTemp), qos=0, retain=True)
 
+
             else:
+                mqttc.publish(topicCookName.substitute(id=id), '', qos=0, retain=True)
                 mqttc.publish(topicMeatType.substitute(id=id), '00', qos=0, retain=True)
                 mqttc.publish(topicTargetTemp.substitute(id=id), 0, qos=0, retain=True)
 
