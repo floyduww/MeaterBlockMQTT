@@ -13,4 +13,4 @@
 54: Salmon Fillet
 57: Wild Salmon Fillet
 7c: Venison Steak
-96: Pork Butt
+96 01: Pork Butt
