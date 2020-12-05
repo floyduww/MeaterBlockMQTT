@@ -99,13 +99,16 @@ while(1):
                     meatTypeHex = part[112:117]  # bytes 38 or 38/39
 
                 cookNameLenthInt = int(cookNameLenthHex, 16)
-                print("\tCookLen : " + str(cookNameLenthInt))
+                if cookNameLenthInt > 0:
+                    print("\tCookLen : " + str(cookNameLenthInt))
 
-                cookNameStart = cookNamePos*3
-                cookNameEnd = cookNamePos*3 + cookNameLenthInt*3
-                cookNameHex = part[cookNameStart:cookNameEnd]
-                cookNameBytes = bytes.fromhex(cookNameHex)
-                cookName = cookNameBytes.decode("ASCII")
+                    cookNameStart = cookNamePos*3
+                    cookNameEnd = cookNamePos*3 + cookNameLenthInt*3
+                    cookNameHex = part[cookNameStart:cookNameEnd]
+                    cookNameBytes = bytes.fromhex(cookNameHex)
+                    cookName = cookNameBytes.decode("ASCII")
+                else:
+                    cookName = meatTypeHex
 
                 print("\tName : " + cookName)
                 mqttc.publish(topicCookName.substitute(id=id), cookName, qos=0, retain=True)
