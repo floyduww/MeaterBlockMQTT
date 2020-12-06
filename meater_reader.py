@@ -82,8 +82,12 @@ def processPacket(packet):
 
             print("Probe : {id} ({version})".format(id=id, version=v_b.decode("ASCII")[0:-2]))
             print("\t" + part)
-            cooking = part[97:99]  # byte 33
             battery = int(part[67:69])  # byte 23
+
+            if part[97:99] == '10':
+                cooking = part[100:102]  # byte 34
+            else:
+                cooking = part[97:99]  # byte 33
 
             print("\tCook : " + cooking)
             mqttc.publish(topicCook.substitute(id=id), cooking, qos=0, retain=True)
@@ -92,8 +96,10 @@ def processPacket(packet):
             mqttc.publish(topicBattery.substitute(id=id), battery, qos=0, retain=True)
 
             if cooking != "00":
-                targetTempHex = part[103:108]  # bytes 35-36
+
+                targetTempHex = part[106:1011]  # bytes 35-36
                 targetTemp = math.floor(toFahrenheit(convertHex2(targetTempHex)))
+                
                 meatTypeHex = part[112:114]  # bytes 38 or 38/39
 
                 cookNamePos = 0
@@ -105,6 +111,9 @@ def processPacket(packet):
                     cookNameLenthHex = part[121:123]
                     cookNamePos = 41
                     meatTypeHex = part[112:117]  # bytes 38 or 38/39
+                elif part[121:123] == "2a":
+                    cookNameLenthHex = part[124:126]
+                    cookNamePos = 42                
 
                 cookNameLenthInt = int(cookNameLenthHex, 16)
 
