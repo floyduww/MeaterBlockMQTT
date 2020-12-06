@@ -12,34 +12,23 @@ https://github.com/nathanfaber/meaterble
 
 Known meat codes in meat_table.txt
 
+
 ### udp packet Breakdown
 Important bytes with the first 3 removed for probes compared to what lkspenesr found.  This has to do with how I split the udp packet.
+These positions are approximate.  I found after initial inspection that that 
 
-When not cooking
+Below are ramblings on my decoding of the UDP packet.
 
-byte # |  purpose
------------- | -------------
-23 | battery
-33 | cooking status
--8 | version and probe id
--1 | probe id
+Then the temperature parts are found using mathing the regex by lkspenser
 
-When cooking (01)
-
-byte # | purpose
------------- | -------------
-35-36 | target temp
-38 | meat type
-
-Then the temperature
- parts that match the regex by lkspenser
+Below each line represents the output from 1 probe at a point in time.  Multiple lines are to compare between different outputs within the same stage
 
 Not Cooking
 ```
 bc                                                                                  bc -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -|
      probe mac address -- -|     block mac address -- -|    p#    bat   sig   ?  -|       adj   on    temp           m tmp    a tmp    pt    ?     ct       probe version  -| _  p#
 3b 09 1a a0 f1 76 21 5a a4 42 11 d0 17 34 19 1d c7 f8 d2 18 02 20 06 28 53 30 01 3a 07 08 00 10 00 18 90 07 42 0c 08 a6 05 10 a6 05 18 00 20 01 28 00 4a 08 76 31 2e 30 2e 35 5f 32
-39 09 6b 55 c4 8b e0 05 b3 0c 11 d0 17 34 19 1d c7 f8 d2 18 03 20 08 28 39 30 01 3a 07 08 00 10 00 18 90 07 42 0a 08 74    10 74 18 00 20 01 28 00 4a 08 76 31 2e 30 2e 35 5f 33 
+39 09 6b 55 c4 8b e0 05 b3 0c 11 d0 17 34 19 1d c7 f8 d2 18 03 20 08 28 39 30 01 3a 07 08 00 10 00 18 90 07 42 0a 08 74    10 74    18 00 20 01 28 00 4a 08 76 31 2e 30 2e 35 5f 33 
    sp                         sp                         sp    sp    sp    sp          sp    sp    sp       sp    sp       
 ```
 
@@ -101,7 +90,7 @@ bc (rest of packet)                                                             
 `Cook name` - (var bytes) custom cook name that overides meat name on display  
 `session number` - (8 bytes) unique session id for the cook
 
-mqtt topics  
+#### mqtt topics  
 meater/probe/{id}/meatType  
 meater/probe/{id}/targetTemp  
 meater/probe/{id}/cook  
@@ -109,8 +98,11 @@ meater/probe/{id}/cookName
 meater/probe/{id}/battery  
 meater/probe/{id}/meat  
 meater/probe/{id}/ambient
+meater/probe/$id/cookName
+meater/block/status
+meater/block/power
 
-Block info
+#### Block info packet
 ```
                                                                   bc1                                                                           bc -- -- -- -- -- -- -- -- -|
                                  inc                              --                               block mac address -- -|    Pwr                  sw version- -- -- -- -- -| 
