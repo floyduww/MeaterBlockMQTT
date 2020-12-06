@@ -95,6 +95,7 @@ def processPacket(packet):
                 meatTypeHex = part[112:114]  # bytes 38 or 38/39
 
                 cookNamePos = 0
+                cookNameLenthHex = "00"
                 if part[115:117] == "2a":
                     cookNameLenthHex = part[118:120]
                     cookNamePos = 40
@@ -104,6 +105,7 @@ def processPacket(packet):
                     meatTypeHex = part[112:117]  # bytes 38 or 38/39
 
                 cookNameLenthInt = int(cookNameLenthHex, 16)
+
                 if cookNameLenthInt > 0:
                     print("\tCookLen : " + str(cookNameLenthInt))
 
