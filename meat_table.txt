@@ -1,16 +1,19 @@
-02: Rib-Eye Steak
-03: Sirloin Steak
-04: Flank Steak
-08: Tomahawk Steak
-0a: Fliet Mignon
-0f: Beef Brisket
-11: Beef Tenderloin
-26: Pork Shoulder
-32: Whole Chicken
-33: Chicken Breast
-3b: Duck Breast
-4d: Lamb Leg
-54: Salmon Fillet
-57: Wild Salmon Fillet
-7c: Venison Steak
-96 01: Pork Butt
+{
+"02": "Rib-Eye Steak",
+"03": "Sirloin Steak",
+"04": "Flank Steak",
+"06": "Pincha Steak",
+"08": "Tomahawk Steak",
+"0a": "Fliet Mignon",
+"0f": "Beef Brisket",
+"11": "Beef Tenderloin",
+"26": "Pork Shoulder",
+"32": "Whole Chicken",
+"33": "Chicken Breast",
+"3b": "Duck Breast",
+"4d": "Lamb Leg",
+"54": "Salmon Fillet",
+"57": "Wild Salmon Fillet",
+"7c": "Venison Steak",
+"96 01": "Pork Butt",
+}

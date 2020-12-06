@@ -7,6 +7,8 @@ import paho.mqtt.client as mqtt
 import math
 from string import Template
 import time
+import ast
+
 
 temp_regex = r"08 ([a-f0-9]{2} ){2}10 [a-f0-9]{2} [a-f0-9]{2} 18"
 parts_split = r"1a [a-f0-9]{2} 0a"
@@ -115,7 +117,10 @@ def processPacket(packet):
                     cookNameBytes = bytes.fromhex(cookNameHex)
                     cookName = cookNameBytes.decode("ASCII")
                 else:
-                    cookName = meatTypeHex
+                    if meatTypeHex in dictionary.keys():
+                        cookName = dictionary[meatTypeHex]
+                    else:
+                        cookName = meatTypeHex
 
                 print("\tName : " + cookName)
                 mqttc.publish(topicCookName.substitute(id=id), cookName, qos=0, retain=True)
@@ -180,6 +185,13 @@ socket_timeout = 1
 lastReceive = time.time()
 blockStatus = 1
 blockTImeout = 60
+
+file = open("meat_table.txt","r")
+
+contents = file.read()
+dictionary = ast.literal_eval(contents)
+
+file.close()
 
 while(1):
     readable, writable, exceptional = select.select(
