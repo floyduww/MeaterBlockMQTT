@@ -1,0 +1,116 @@
+sensor:  
+  - platform: mqtt
+    name: "Meater Block Status"
+    state_topic: "meater/block/status"
+  - platform: mqtt
+    name: "Meater 1 Cooking"
+    state_topic: "meater/probe/1/cook"
+  - platform: mqtt
+    name: "Meater 1 Meat"
+    state_topic: "meater/probe/1/meat"
+    device_class: temperature
+    unit_of_measurement: '°F'    
+  - platform: mqtt
+    name: "Meater 1 Ambient"
+    state_topic: "meater/probe/1/ambient"
+    device_class: temperature
+    unit_of_measurement: '°F'    
+  - platform: mqtt
+    name: "Meater 1 Battery"
+    state_topic: "meater/probe/1/battery"
+    device_class: battery  
+  - platform: mqtt
+    name: "Meater 1 Target"
+    state_topic: "meater/probe/1/targetTemp"
+    device_class: temperature    
+    unit_of_measurement: '°F' 
+  - platform: mqtt
+    name: "Meater 1 Meat Type"
+    state_topic: "meater/probe/1/meatType"      
+  - platform: mqtt
+    name: "Meater 1 Cook Name"
+    state_topic: "meater/probe/1/cookName"        
+  - platform: mqtt
+    name: "Meater 2 Cooking"
+    state_topic: "meater/probe/2/cook"
+  - platform: mqtt
+    name: "Meater 2 Meat"
+    state_topic: "meater/probe/2/meat"
+    device_class: temperature
+    unit_of_measurement: '°F'    
+  - platform: mqtt
+    name: "Meater 2 Ambient"
+    state_topic: "meater/probe/2/ambient"
+    device_class: temperature
+    unit_of_measurement: '°F'     
+  - platform: mqtt
+    name: "Meater 2 Battery"
+    state_topic: "meater/probe/2/battery"
+    device_class: battery    
+  - platform: mqtt
+    name: "Meater 2 Target"
+    state_topic: "meater/probe/2/targetTemp"
+    device_class: temperature    
+    unit_of_measurement: '°F' 
+  - platform: mqtt
+    name: "Meater 2 Meat Type"
+    state_topic: "meater/probe/2/meatType"   
+  - platform: mqtt
+    name: "Meater 2 Cook Name"
+    state_topic: "meater/probe/2/cookName"      
+  - platform: mqtt
+    name: "Meater 3 Cooking"
+    state_topic: "meater/probe/3/cook"
+  - platform: mqtt 
+    name: "Meater 3 Meat"
+    state_topic: "meater/probe/3/meat"
+    device_class: temperature
+    unit_of_measurement: '°F'    
+  - platform: mqtt
+    name: "Meater 3 Ambient"
+    state_topic: "meater/probe/3/ambient"
+    device_class: temperature
+    unit_of_measurement: '°F'    
+  - platform: mqtt
+    name: "Meater 3 Battery"
+    state_topic: "meater/probe/3/battery"
+    device_class: battery    
+  - platform: mqtt
+    name: "Meater 3 Target"
+    state_topic: "meater/probe/3/targetTemp"
+    device_class: temperature    
+    unit_of_measurement: '°F' 
+  - platform: mqtt
+    name: "Meater 3 Meat Type"
+    state_topic: "meater/probe/3/meatType"     
+  - platform: mqtt
+    name: "Meater 3 Cook Name"
+    state_topic: "meater/probe/3/cookName"     
+  - platform: mqtt
+    name: "Meater 4 Cooking"
+    state_topic: "meater/probe/4/cook"
+  - platform: mqtt
+    name: "Meater 4 Meat"
+    state_topic: "meater/probe/4/meat"
+    device_class: temperature
+    unit_of_measurement: '°F'    
+  - platform: mqtt
+    name: "Meater 4 Ambient"
+    state_topic: "meater/probe/4/ambient"
+    device_class: temperature
+    unit_of_measurement: '°F'      
+  - platform: mqtt
+    name: "Meater 4 Battery"
+    state_topic: "meater/probe/4/battery"
+    device_class: battery
+  - platform: mqtt
+    name: "Meater 4 Target"
+    state_topic: "meater/probe/4/targetTemp"
+    device_class: temperature    
+    unit_of_measurement: '°F' 
+  - platform: mqtt
+    name: "Meater 4 Meat Type"
+    state_topic: "meater/probe/4/meatType"
+  - platform: mqtt
+    name: "Meater 4 Cook Name"
+    state_topic: "meater/probe/4/cookName"  
