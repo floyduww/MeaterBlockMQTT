@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-import socket, select
+import socket
+import select
 import binascii
 import re
 import paho.mqtt.client as mqtt
@@ -45,9 +46,9 @@ def on_disconnect(mqttc, userdata, rc):
 
 
 def sendBlockOn():
-     mqttc.publish(topicBlockStatus, "on", qos=0, retain=True)
+    mqttc.publish(topicBlockStatus, "on", qos=0, retain=True)
 
-     return 1
+    return 1
 
 
 def sendBlockOff(blockStatus):
@@ -130,7 +131,7 @@ def processPacket(packet):
 
             matches = re.finditer(temp_regex, part, re.MULTILINE)
 
-            for matchNum, match in enumerate(matches, start=1):
+            for match in matches:
                 meatF = toFahrenheit(convertHex(match.group()[3:8]))
                 ambF = toFahrenheit(convertHex(match.group()[12:17]))
 
@@ -180,19 +181,19 @@ blockTImeout = 60
 
 while(1):
     readable, writable, exceptional = select.select(
-        inputs, outputs, inputs, socket_timeout )
+        inputs, outputs, inputs, socket_timeout)
     for s in readable:
         if s is s_client:
-          data = s.recvfrom(1024)
-          processPacket(data)
-          blockStatus = sendBlockOn()
-          lastReceive = time.time()
+            data = s.recvfrom(1024)
+            processPacket(data)
+            blockStatus = sendBlockOn()
+            lastReceive = time.time()
 
     for s in writable:
         print("write")
 
     for s in exceptional:
         print("exceptional")
-        
+
     if time.time() - lastReceive > blockTImeout:
         blockStatus = sendBlockOff(blockStatus)
