@@ -90,6 +90,18 @@ bc (rest of packet)                                                             
 `Cook name` - (var bytes) custom cook name that overides meat name on display  
 `session number` - (8 bytes) unique session id for the cook  
 `probe version` - (var bytes) version of the probe SW with the probe number at the end
+
+Cook broken up with major seperators as first byte  
+64 (byte count)   
+`09` 1a a0 f1 76 21 5a a4 42  
+`11` d0 17 34 19 1d c7 f8 d2  
+`18` 02 20 08 28 99 01  
+`30` 01 3a 2d 08 02 10 02 18 f1 0b 20 96 01 2a 0f 70 6f 72 6b 20 42 75 74 74 20 72 69 67 68 74  
+`32` 07 08 05 10 01 18 d8 04  
+`39` 10 64 83 18 1f 84 00 60  
+`42` 0e 08 8e 01 10 f6 12 18 8e 01 20 01 28 a0 03  
+`4a` 08 76 31 2e 30 2e 35 5f 32 
+
 #### mqtt topics  
 meater/probe/{id}/meatType  
 meater/probe/{id}/targetTemp  
