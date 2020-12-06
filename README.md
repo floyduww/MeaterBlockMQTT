@@ -88,7 +88,7 @@ bc (rest of packet)                                                             
 `pt` - (2 bytes) peak probe temperature (I think)   
 `ct` - (var bytes) cook time - how long the cook has been going for. NOTE: this is also a little endian excess-128 value like the probe temperatures.  
 `Cook name` - (var bytes) custom cook name that overides meat name on display  
-`session number` - (8 bytes) unique session id for the cook
+`session number` - (8 bytes) unique session id for the cook  
 `probe version` - (var bytes) version of the probe SW with the probe number at the end
 #### mqtt topics  
 meater/probe/{id}/meatType  
