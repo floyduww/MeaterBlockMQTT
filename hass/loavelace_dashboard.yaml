@@ -1,146 +1,166 @@
-type: vertical-stack
-cards:
-  - type: vertical-stack
-    title: ''
+- title: Smoker
+    path: smoker
+    icon: 'hass:fire'
+    badges:
+      - entity: sensor.meater_block_status
+        name: Block
+        style: |
+          :host {
+            --label-badge-red: {% if is_state('sensor.meater_block_status', 'on') %} green {% else %} red {% endif %};
+            --label-badge-background-color: {% if is_state('sensor.meater_block_status', 'on') %} green {% else %} red {% endif %};
+          }
+      - entity: sensor.meater_1_meat
+        name: Meater 1
+      - entity: sensor.meater_2_meat
+        name: Meater 2
+      - entity: sensor.meater_3_meat
+        name: Meater 3
+      - entity: sensor.meater_4_meat
+        name: Meater 4
     cards:
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_1_cooking
-            state_not: '00'
-        card:
-          type: markdown
-          content: >-
-            ## `1` <font color="#FF0000"><ha-icon
-            icon="mdi:fire"></ha-icon></font> {{
-            states("sensor.meater_1_cook_name") }}
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_1_cooking
-            state: '00'
-        card:
-          type: markdown
-          content: '## Meater `1`'
-      - type: horizontal-stack
+      - type: vertical-stack
         cards:
-          - type: entity
-            entity: sensor.meater_1_meat
-            name: Meat
-          - type: entity
-            entity: sensor.meater_1_ambient
-            name: Ambient
-          - type: gauge
-            entity: sensor.meater_1_battery
-            min: 4
-            name: Battery
-            max: 8
-          - type: entity
-            entity: sensor.meater_1_target
-            name: Target
-  - type: vertical-stack
-    title: ''
-    cards:
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_2_cooking
-            state_not: '00'
-        card:
-          type: markdown
-          content: >-
-            ## `2` <font color="#FF0000"><ha-icon
-            icon="mdi:fire"></ha-icon></font> {{
-            states("sensor.meater_2_cook_name") }}
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_2_cooking
-            state: '00'
-        card:
-          type: markdown
-          content: '## Meater `2`'
-      - type: horizontal-stack
-        cards:
-          - type: entity
-            entity: sensor.meater_2_meat
-            name: Meat
-          - type: entity
-            entity: sensor.meater_2_ambient
-            name: Ambient
-          - type: gauge
-            entity: sensor.meater_2_battery
-            min: 4
-            name: Battery
-            max: 8
-          - type: entity
-            entity: sensor.meater_2_target
-            name: Target
-  - type: vertical-stack
-    title: ''
-    cards:
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_3_cooking
-            state_not: '00'
-        card:
-          type: markdown
-          content: >-
-            ## `3`  <font color="#FF0000"><ha-icon
-            icon="mdi:fire"></ha-icon></font> {{
-            states("sensor.meater_3_cook_name") }}
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_3_cooking
-            state: '00'
-        card:
-          type: markdown
-          content: '## Meater `3`'
-      - type: horizontal-stack
-        cards:
-          - type: entity
-            entity: sensor.meater_3_meat
-            name: Meat
-          - type: entity
-            entity: sensor.meater_3_ambient
-            name: Ambient
-          - type: gauge
-            entity: sensor.meater_3_battery
-            min: 4
-            name: Battery
-            max: 8
-          - type: entity
-            entity: sensor.meater_3_target
-            name: Target
-  - type: vertical-stack
-    title: ''
-    cards:
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_4_cooking
-            state_not: '00'
-        card:
-          type: markdown
-          content: >-
-            ## `4`  <font color="#FF0000"><ha-icon
-            icon="mdi:fire"></ha-icon></font> {{
-            states("sensor.meater_4_cook_name") }}
-      - type: conditional
-        conditions:
-          - entity: sensor.meater_4_cooking
-            state: '00'
-        card:
-          type: markdown
-          content: '## Meater `4`'
-      - type: horizontal-stack
-        cards:
-          - type: entity
-            entity: sensor.meater_4_meat
-            name: Meat
-          - type: entity
-            entity: sensor.meater_4_ambient
-            name: Ambient
-          - type: gauge
-            entity: sensor.meater_4_battery
-            min: 4
-            name: Battery
-            max: 8
-          - type: entity
-            entity: sensor.meater_4_target
-            name: Target
+          - type: vertical-stack
+            title: ''
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_1_cooking
+                    state_not: '00'
+                card:
+                  type: markdown
+                  content: >-
+                    ## `1` <font color="#FF0000"><ha-icon
+                    icon="mdi:fire"></ha-icon></font> {{
+                    states("sensor.meater_1_cook_name") }}
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_1_cooking
+                    state: '00'
+                card:
+                  type: markdown
+                  content: '## Meater `1`'
+              - type: horizontal-stack
+                cards:
+                  - type: entity
+                    entity: sensor.meater_1_meat
+                    name: Meat
+                  - type: entity
+                    entity: sensor.meater_1_ambient
+                    name: Ambient
+                  - type: gauge
+                    entity: sensor.meater_1_battery
+                    min: 4
+                    name: Battery
+                    max: 8
+                  - type: entity
+                    entity: sensor.meater_1_target
+                    name: Target
+          - type: vertical-stack
+            title: ''
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_2_cooking
+                    state_not: '00'
+                card:
+                  type: markdown
+                  content: >-
+                    ## `2` <font color="#FF0000"><ha-icon
+                    icon="mdi:fire"></ha-icon></font> {{
+                    states("sensor.meater_2_cook_name") }}
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_2_cooking
+                    state: '00'
+                card:
+                  type: markdown
+                  content: '## Meater `2`'
+              - type: horizontal-stack
+                cards:
+                  - type: entity
+                    entity: sensor.meater_2_meat
+                    name: Meat
+                  - type: entity
+                    entity: sensor.meater_2_ambient
+                    name: Ambient
+                  - type: gauge
+                    entity: sensor.meater_2_battery
+                    min: 4
+                    name: Battery
+                    max: 8
+                  - type: entity
+                    entity: sensor.meater_2_target
+                    name: Target
+          - type: vertical-stack
+            title: ''
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_3_cooking
+                    state_not: '00'
+                card:
+                  type: markdown
+                  content: >-
+                    ## `3`  <font color="#FF0000"><ha-icon
+                    icon="mdi:fire"></ha-icon></font> {{
+                    states("sensor.meater_3_cook_name") }}
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_3_cooking
+                    state: '00'
+                card:
+                  type: markdown
+                  content: '## Meater `3`'
+              - type: horizontal-stack
+                cards:
+                  - type: entity
+                    entity: sensor.meater_3_meat
+                    name: Meat
+                  - type: entity
+                    entity: sensor.meater_3_ambient
+                    name: Ambient
+                  - type: gauge
+                    entity: sensor.meater_3_battery
+                    min: 4
+                    name: Battery
+                    max: 8
+                  - type: entity
+                    entity: sensor.meater_3_target
+                    name: Target
+          - type: vertical-stack
+            title: ''
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_4_cooking
+                    state_not: '00'
+                card:
+                  type: markdown
+                  content: >-
+                    ## `4`  <font color="#FF0000"><ha-icon
+                    icon="mdi:fire"></ha-icon></font> {{
+                    states("sensor.meater_4_cook_name") }}
+              - type: conditional
+                conditions:
+                  - entity: sensor.meater_4_cooking
+                    state: '00'
+                card:
+                  type: markdown
+                  content: '## Meater `4`'
+              - type: horizontal-stack
+                cards:
+                  - type: entity
+                    entity: sensor.meater_4_meat
+                    name: Meat
+                  - type: entity
+                    entity: sensor.meater_4_ambient
+                    name: Ambient
+                  - type: gauge
+                    entity: sensor.meater_4_battery
+                    min: 4
+                    name: Battery
+                    max: 8
+                  - type: entity
+                    entity: sensor.meater_4_target
+                    name: Target
