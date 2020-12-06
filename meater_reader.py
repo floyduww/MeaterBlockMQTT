@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-import socket
+import socket, select
 import binascii
 import re
 import paho.mqtt.client as mqtt
 import math
 from string import Template
+import time
 
 temp_regex = r"08 ([a-f0-9]{2} ){2}10 [a-f0-9]{2} [a-f0-9]{2} 18"
 parts_split = r"1a [a-f0-9]{2} 0a"
@@ -43,36 +44,28 @@ def on_disconnect(mqttc, userdata, rc):
         print("Disconnected successfully")
 
 
-# mqtt setup and connect
-mqttc = mqtt.Client()
-mqttc.on_publish = on_publish
-mqttc.on_disconnect = on_disconnect
-mqttc.connect("MQTT.HOSTNAME", 1883, 60)
+def sendBlockOn():
+     mqttc.publish(topicBlockStatus, "on", qos=0, retain=True)
 
-# udp socket to listen to
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.bind(('', 7878))
+     return 1
 
-# mqtt topics
-topicCook = Template("meater/probe/$id/cook")
-topicBattery = Template("meater/probe/$id/battery")
-topicMeatType = Template("meater/probe/$id/meatType")
-topicTargetTemp = Template("meater/probe/$id/targetTemp")
-topicMeat = Template("meater/probe/$id/meat")
-topicAmbient = Template("meater/probe/$id/ambient")
-topicCookName = Template("meater/probe/$id/cookName")
 
-mqttc.loop_start()
+def sendBlockOff(blockStatus):
+    if blockStatus:
+        mqttc.publish(topicBlockStatus, "off", qos=0, retain=True)
+        print("blockOff")
 
-while(1):
-    m = s.recvfrom(4096)
+    return 0
+
+
+def processPacket(packet):
     print("-----------------")
-    print('len(m)='+str(len(m)))
-    print('len(m[0])='+str(len(m[0])))
-    print('len(m[1])='+str(len(m[1])))
-    print(m[1])
+    print('len(m)='+str(len(packet)))
+    print('len(m[0])='+str(len(packet[0])))
+    print('len(m[1])='+str(len(packet[1])))
+    print(packet[1])
 
-    hex_string = "".join("%02x " % b for b in m[0])
+    hex_string = "".join("%02x " % b for b in packet[0])
 
     # break apart to block(0) and probes(1-4)
     parts = re.split(parts_split, hex_string)
@@ -152,3 +145,54 @@ while(1):
             v_b = bytes.fromhex(version)
             print("Block SW Version : " + v_b.decode("ASCII"))
             print("\t" + part)
+
+
+# mqtt setup and connect
+mqttc = mqtt.Client()
+mqttc.on_publish = on_publish
+mqttc.on_disconnect = on_disconnect
+mqttc.connect("MQTT.HOSTNAME", 1883, 60)
+
+# udp socket to listen to
+s_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s_client.setblocking(0)
+s_client.bind(('', 7878))
+
+# mqtt topics
+topicCook = Template("meater/probe/$id/cook")
+topicBattery = Template("meater/probe/$id/battery")
+topicMeatType = Template("meater/probe/$id/meatType")
+topicTargetTemp = Template("meater/probe/$id/targetTemp")
+topicMeat = Template("meater/probe/$id/meat")
+topicAmbient = Template("meater/probe/$id/ambient")
+topicCookName = Template("meater/probe/$id/cookName")
+topicBlockStatus = "meater/block/status"
+
+mqttc.loop_start()
+
+inputs = [s_client]
+outputs = []
+socket_timeout = 1
+
+lastReceive = time.time()
+blockStatus = 1
+blockTImeout = 60
+
+while(1):
+    readable, writable, exceptional = select.select(
+        inputs, outputs, inputs, socket_timeout )
+    for s in readable:
+        if s is s_client:
+          data = s.recvfrom(1024)
+          processPacket(data)
+          blockStatus = sendBlockOn()
+          lastReceive = time.time()
+
+    for s in writable:
+        print("write")
+
+    for s in exceptional:
+        print("exceptional")
+        
+    if time.time() - lastReceive > blockTImeout:
+        blockStatus = sendBlockOff(blockStatus)
