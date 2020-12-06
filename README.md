@@ -81,15 +81,15 @@ bc (rest of packet)                                                             
 `sig` - (1 or 2 byte) bluetooth signal  
 `adj` - (1 byte) number of adjustments that have been made to the cook (not 100% sure but that's what it appears to be related to)  
 `on` - (1 byte) this is the hex value indicating if the probe has an active cook going or not where 00 is no cook and anything else means it has a cook (I've seen 01 and 02)  
-`temp` - (2 byts) target temperature  
-`mt` - (1 byte) meat type  
+`temp` - (2 bytes) target temperature  
+`mt` - (1 or 2 bytes) meat type  
 `m tmp` - (1 or 2 bytes) meat temperature  
 `a tmp` - (1 or 2 bytes) ambient temperature  
 `pt` - (2 bytes) peak probe temperature (I think)   
 `ct` - (var bytes) cook time - how long the cook has been going for. NOTE: this is also a little endian excess-128 value like the probe temperatures.  
 `Cook name` - (var bytes) custom cook name that overides meat name on display  
 `session number` - (8 bytes) unique session id for the cook
-
+`probe version` - (var bytes) version of the probe SW with the probe number at the end
 #### mqtt topics  
 meater/probe/{id}/meatType  
 meater/probe/{id}/targetTemp  
