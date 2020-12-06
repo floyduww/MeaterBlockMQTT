@@ -153,6 +153,10 @@ def processPacket(packet):
             v_b = bytes.fromhex(version)
             print("Block SW Version : " + v_b.decode("ASCII"))
             print("\t" + part)
+            powerStatusHex = part[126:128]
+            print("\tpower: " + powerStatusHex)
+            powerStatusInt = int(powerStatusHex, 16)
+            mqttc.publish(topicBlockPower, str(powerStatusInt), qos=0, retain=True)
 
 
 # mqtt setup and connect
@@ -175,6 +179,7 @@ topicMeat = Template("meater/probe/$id/meat")
 topicAmbient = Template("meater/probe/$id/ambient")
 topicCookName = Template("meater/probe/$id/cookName")
 topicBlockStatus = "meater/block/status"
+topicBlockPower = "meater/block/power"
 
 mqttc.loop_start()
 
@@ -186,7 +191,7 @@ lastReceive = time.time()
 blockStatus = 1
 blockTImeout = 60
 
-file = open("meat_table.txt","r")
+file = open("meat_table.txt", "r")
 
 contents = file.read()
 dictionary = ast.literal_eval(contents)
