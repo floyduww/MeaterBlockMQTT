@@ -62,11 +62,13 @@ bc (rest of packet)                                                             
 
 Finished cooking 
 ```
-bc (rest of packet)                                                                 bc -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -|
-                                                                                                               bc
-      probe mac address -- -|    block mac address -- -|    p#    bat   sig   ?  -|       adj   on    temp           session number?-- -- -|          m tmp    a tmp    pt -|    ?     ct          probe version  -| _  p#
-48 09 00 e3 1a ae b6 25 25 67 11 d0 17 34 19 1d c7 f8 d2 18 04 20 07 28 39 30 01 3a 12 08 05 10 00 18 f3 08 2a 00 39 9d dd 85 55 60 3d d3 60 42 0e 08 b6 05 10 b6 05 18 ff 0f 20 01 28 bc 18 4a 08 76 31 2e 30 2e 35 5f 34
-   sp                         sp                         sp    sp    sp    sp          sp    sp    sp       sp    sp                         sp    sp       sp       sp       sp             sp  
+bc (rest of packet)                                                                    bc -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -- -- -- -- -- -- -|       bc -- -- -- -- -- -- -- -|
+                                                                                                                  bc
+      probe mac address -- -|    block mac address -- -|    p#    bat   sig      ?  -|       adj   on    temp           session number?-- -- -|          m tmp    a tmp    pt -|    ?     ct          probe version  -| _  p#
+48 09 00 e3 1a ae b6 25 25 67 11 d0 17 34 19 1d c7 f8 d2 18 04 20 07 28 39    30 01 3a 12 08 05 10 00 18 f3 08 2a 00 39 9d dd 85 55 60 3d d3 60 42 0e 08 b6 05 10 b6 05 18 ff 0f 20 01 28 bc 18    4a 08 76 31 2e 30 2e 35 5f 34
+47 09 19 9f 43 63 83 e2 b5 33 11 d0 17 34 19 1d c7 f8 d2 18 01 20 07 28 a5 01 30 01 3a 0f 08 1c 10 00 18 00          39 e4 f8 cd 0d 17 54 1f 60 42 0f 08 b0 05 10 b0 05 18 ff 0f 20 01 28 e7 e4 02 4a 08 76 31 2e 30 2e 35 5f 31 
+44 09 1a a0 f1 76 21 5a a4 42 11 d0 17 34 19 1d c7 f8 d2 18 02 20 06 28 37    30 00 3a 0f 08 20 10 00 18 00          39 10 64 83 18 1f 84 00 60 42 0d 08 b8 05 10 b8 05 18 ff 0f 20 01 28 00       4a 08 76 31 2e 30 2e 35 5f 32 
+   sp                         sp                         sp    sp    sp       sp          sp    sp    sp       sp    sp                         sp    sp       sp       sp       sp                sp  
 ```
 
 `01 3a` is a big seperator
@@ -109,10 +111,10 @@ meater/probe/{id}/cook
 meater/probe/{id}/cookName
 meater/probe/{id}/battery  
 meater/probe/{id}/meat  
-meater/probe/{id}/ambient
-meater/probe/$id/cookName
-meater/block/status
-meater/block/power
+meater/probe/{id}/ambient  
+meater/probe/$id/cookName  
+meater/block/status  
+meater/block/power  
 
 #### Block info packet
 ```
