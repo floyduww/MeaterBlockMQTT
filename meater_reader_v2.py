@@ -1,17 +1,11 @@
 #!/usr/bin/python3
 import socket
 import select
-import binascii
-import re
 import paho.mqtt.client as mqtt
 import math
 from string import Template
 import time
 import ast
-
-
-temp_regex = r"08 ([a-f0-9]{2} ){2}10 [a-f0-9]{2} [a-f0-9]{2} 18"
-parts_split = r"1a [a-f0-9]{2} 0a"
 
 
 def probe_data(offset, data):
