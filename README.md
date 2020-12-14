@@ -130,4 +130,4 @@ meater/block/power
 
 `inc` - goes up every push, just rolls over  
 `bc1` - byte count of probe data  
-`pwr` - 66 on USB, >= 64 on batt  
+`pwr` - 66 on USB, <= 64 on batt  
