@@ -82,7 +82,7 @@ bc (rest of packet)                                                             
 `bat` - (1 byte) battery  
 `sig` - (1 or 2 byte) bluetooth signal  
 `adj` - (1 byte) number of adjustments that have been made to the cook (not 100% sure but that's what it appears to be related to)  
-`on` - (1 byte) this is the hex value indicating if the probe has an active cook going or not where 00 is no cook and anything else means it has a cook (I've seen 01 and 02)  
+`on` - (1 byte) this is the hex value indicating if the probe has an active cook going or not where 00 is no cook and anything else means it has a cook (I've seen 01, 02(cookint, 04(resting?, 05, 06)  
 `temp` - (2 bytes) target temperature  
 `mt` - (1 or 2 bytes) meat type  
 `m tmp` - (1 or 2 bytes) meat temperature  
