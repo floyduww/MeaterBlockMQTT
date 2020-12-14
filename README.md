@@ -16,12 +16,12 @@ Known meat codes in meat_table.txt
 
 
 ### udp packet Breakdown
-Important bytes with the first 3 removed for probes compared to what lkspenesr found.  This has to do with how I split the udp packet.
+Important bytes with the first 3 removed for probes compared to what [lkspencer](https://tvwbb.com/members/lkspencer.41726/) found.  This has to do with how I split the udp packet.
 These positions are approximate.  I found after initial inspection that that 
 
 Below are ramblings on my decoding of the UDP packet.
 
-Then the temperature parts are found using mathing the regex by lkspenser
+Then the temperature parts are found using mathing the regex by [lkspencer](https://tvwbb.com/members/lkspencer.41726/)
 
 Below each line represents the output from 1 probe at a point in time.  Multiple lines are to compare between different outputs within the same stage
 
