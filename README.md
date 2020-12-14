@@ -9,6 +9,8 @@ https://www.scadacore.com/tools/programming-calculators/online-hex-converter/
 
 https://github.com/nathanfaber/meaterble
 
+https://community.home-assistant.io/t/meater-thermometer/130501/40
+
 
 Known meat codes in meat_table.txt
 
