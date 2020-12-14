@@ -108,7 +108,7 @@ Cook broken up with major seperators as first byte
 meater/probe/{id}/meatType  
 meater/probe/{id}/targetTemp  
 meater/probe/{id}/cook  
-meater/probe/{id}/cookName
+meater/probe/{id}/cookName  
 meater/probe/{id}/battery  
 meater/probe/{id}/meat  
 meater/probe/{id}/ambient  
