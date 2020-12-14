@@ -126,6 +126,6 @@ meater/block/power
 `bc` - byte count  
 `sp` - seperator
 
-`inc` - goes up every push, just rolls over  ye
+`inc` - goes up every push, just rolls over  
 `bc1` - byte count of probe data  
 `pwr` - 66 on USB, >= 64 on batt  
