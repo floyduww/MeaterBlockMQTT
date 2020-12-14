@@ -112,7 +112,6 @@ meater/probe/{id}/cookName
 meater/probe/{id}/battery  
 meater/probe/{id}/meat  
 meater/probe/{id}/ambient  
-meater/probe/$id/cookName  
 meater/block/status  
 meater/block/power  
 
