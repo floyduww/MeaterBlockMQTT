@@ -7,7 +7,7 @@ from string import Template
 import time
 import ast
 
-MQTT_HOSTNAME = "x10pi.localdomain"  # IP or FQDN of MQTT Server
+MQTT_HOSTNAME = "<MQTT.HOSTNAME>"  # IP or FQDN of MQTT Server
 MQTT_PORT = 1883
 blockTImeout = 60  # wait this many seconds before sending blockOff 
 
@@ -42,11 +42,9 @@ def probe_data(offset, data):
     temp_data_bc = int.from_bytes(probeData[temp_data_start:temp_data_start + 1], "little")
     temp_data = probeData[temp_data_start + 1:temp_data_start + 1 + temp_data_bc]
 
-    probe["m_temp"] = math.floor(toFahrenheit(convertBytes(temp_data[1:3])))
-    convertBytes(temp_data[1:3])
+    probe["m_temp"] = math.floor(toFahrenheit(convertHex(temp_data[1:3].hex())))
 
-    probe["a_temp"] = math.floor(toFahrenheit(convertBytes(temp_data[4:6])))
-    convertBytes(temp_data[4:6])
+    probe["a_temp"] = math.floor(toFahrenheit(convertHex(temp_data[4:6].hex())))
 
     version_start = temp_data_start + temp_data_bc + 2
     version_bc = int.from_bytes(probeData[version_start:version_start + 1], "little")
@@ -58,7 +56,7 @@ def probe_data(offset, data):
     probe["meat_type"] = ""
 
     if(probe["cooking"] != "00"):
-        probe["targ_temp"] = math.floor(toFahrenheit(convertBytes2(cook_data[6:8])))
+        probe["targ_temp"] = math.floor(toFahrenheit(convertHex2(cook_data[6:8].hex())))
         if(cook_data[10:11].hex() == "2a"):
             probe["meat_type"] = cook_data[9:10].hex()
             cook_name_pos = 11
@@ -78,16 +76,17 @@ def probe_data(offset, data):
     return probe
 
 
-# convert an excess 128 byte to int
-def convertBytes(data):
-    incrementor = int.from_bytes(data[0:1], "little") - 128
-    count = int.from_bytes(data[1:2], "little")
+# convert an excess 128 hex byte to int
+def convertHex(hex):
+    print(hex)
+    incrementor = int(hex[0:2], 16) - 128
+    count = int(hex[2:4], 16)
     return ((count*128) + incrementor)
 
 
-def convertBytes2(data):
-    incrementor = int.from_bytes(data[0:1], "little") - 128
-    count = int.from_bytes(data[1:2], "little")
+def convertHex2(hex):
+    incrementor = int(hex[0:2], 16) - 128
+    count = int(hex[2:4], 16)
     return (((count*128) + incrementor) * 2)
 
 
@@ -131,21 +130,20 @@ def processPacket(packet):
     print('len(packet[0])='+str(len(packet[0])))
     print('len(packet[1])='+str(len(packet[1])))
     print(packet[1])
-
-    theData = packet[0]
-    print(theData)
-    hex_string = "".join("%02x " % b for b in packet[0])
-    print(hex_string)
-
     # less than 150 assumes phone app
     if (len(packet[0]) < 150):
         print("I think this is the phone app")
         return False
 
     probes = {}
+    theData = packet[0]
+    print(theData)
+    hex_string = "".join("%02x " % b for b in packet[0])
+    print(hex_string)
 
     block_power = theData[42:43]
     powerStatusInt = int.from_bytes(block_power, "little")
+    print("\tpower:" + str(powerStatusInt))
     mqttc.publish(topicBlockPower, str(powerStatusInt), qos=0, retain=True)
 
     probe_1_start = 61
