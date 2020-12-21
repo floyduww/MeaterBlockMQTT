@@ -15,6 +15,7 @@ blockTImeout = 60  # wait this many seconds before sending blockOff
 def probe_data(offset, data):
     probe = {}
     big_sep = bytes.fromhex("30013a")
+    big_sep2 = bytes.fromhex("30003a") # occurs rarely and not sure why
 
     bc = int.from_bytes(data[offset:offset+1], "little")
 
@@ -28,6 +29,8 @@ def probe_data(offset, data):
     probe["batt"] = int.from_bytes(probeData[21:22], "little")
 
     first_data_chunk_end = probeData.find(big_sep)
+    if (first_data_chunk_end < 0):
+        first_data_chunk_end = probeData.find(big_sep2)
 
     probe["sig"] = probeData[23:first_data_chunk_end].hex()
 
