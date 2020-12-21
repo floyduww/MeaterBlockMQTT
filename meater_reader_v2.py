@@ -7,6 +7,10 @@ from string import Template
 import time
 import ast
 
+MQTT_HOSTNAME = "<MQTT.HOSTNAME>"  # IP or FQDN of MQTT Server
+MQTT_PORT = 1883
+blockTImeout = 60  # wait this many seconds before sending blockOff 
+
 
 def probe_data(offset, data):
     probe = {}
@@ -74,6 +78,7 @@ def probe_data(offset, data):
 
 # convert an excess 128 hex byte to int
 def convertHex(hex):
+    print(hex)
     incrementor = int(hex[0:2], 16) - 128
     count = int(hex[2:4], 16)
     return ((count*128) + incrementor)
@@ -121,10 +126,14 @@ def sendBlockOff(blockStatus):
 
 def processPacket(packet):
     print("-----------------")
-    print('len(m)='+str(len(packet)))
-    print('len(m[0])='+str(len(packet[0])))
-    print('len(m[1])='+str(len(packet[1])))
+    print('len(packet)='+str(len(packet)))
+    print('len(packet[0])='+str(len(packet[0])))
+    print('len(packet[1])='+str(len(packet[1])))
     print(packet[1])
+    # less than 150 assumes phone app
+    if (len(packet[0]) < 150):
+        print("I think this is the phone app")
+        return False
 
     probes = {}
     theData = packet[0]
@@ -165,7 +174,7 @@ def processPacket(packet):
 mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
 mqttc.on_disconnect = on_disconnect
-mqttc.connect("MQTT.HOSTNAME", 1883, 60)
+mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, 60)
 
 # udp socket to listen to
 s_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -191,7 +200,7 @@ socket_timeout = 1
 
 lastReceive = time.time()
 blockStatus = 1
-blockTImeout = 60
+
 
 file = open("meat_table.txt", "r")
 
