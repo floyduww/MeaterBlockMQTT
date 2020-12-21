@@ -11,11 +11,11 @@ from configparser import ConfigParser
 config = ConfigParser()
 
 config.read('config.ini')
-MQTT_HOSTNAME = config.get('main', 'MQTT_HOSTNAME')
-MQTT_PORT = config.getint('main', 'MQTT_PORT')
-MQTT_TIMEOUT = config.getint('main', 'MQTT_TIMEOUT')
-BLOCK_TIMEOUT = config.getint('main', 'BLOCK_TIMEOUT')
-BLOCK_UDP_PORT = config.getint('main', 'BLOCK_UDP_PORT')
+MQTT_HOSTNAME = config.get('mqtt', 'MQTT_HOSTNAME')
+MQTT_PORT = config.getint('mqtt', 'MQTT_PORT')
+MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT')
+BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT')
+BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT')
 
 
 def probe_data(offset, data):
