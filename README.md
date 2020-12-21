@@ -81,7 +81,7 @@ bc (rest of packet)                                                             
 `probe mac` - (8 bytes)  
 `block mac` - (8 bytes)  
 `p#` - (1 byte) probe number  
-`bat` - (1 byte) battery  
+`bat` - (1 byte) battery  (range 5-9)
 `sig` - (1 or 2 byte) bluetooth signal  
 `adj` - (1 byte) number of adjustments that have been made to the cook (not 100% sure but that's what it appears to be related to)  
 `on` - (1 byte) this is the hex value indicating if the probe has an active cook going or not where 00 is no cook and anything else means it has a cook (I've seen 01, 02(cookint, 04(resting?, 05, 06)  
@@ -131,3 +131,17 @@ meater/block/power
 `inc` - goes up every push, just rolls over  
 `bc1` - byte count of probe data  
 `pwr` - 66 on USB, <= 64 on batt  
+
+
+#### Phone app
+```
+                                 inc                                                                                                                                                                        bc |- Phone type                             -|    bc |-ver -|    bc |? ?|          
+0a 13 08 ca a8 01 10 0c 18 01 20 05 29 af ba a9 28 2d 75 99 0f 12 46 0a 28 d0 17 34 19 1d c7 f8 d2 6b 55 c4 8b e0 05 b3 0c 19 9f 43 63 83 e2 b5 33 1a a0 f1 76 21 5a a4 42 00 e3 1a ae b6 25 25 67 10 02 22 0f 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 33 61 2a 03 32 2e 35 32 02 31 31 
+                                                                                                                                                                                                         sp                                                 sp             sp  
+```
+`bc` - byte count  
+`sp` - seperator
+
+`inc` - goes up every push, just rolls over  
+`ver` - Phone app version #  
+`??`  - not sure if this is an id like probe id or a verion sub number  
