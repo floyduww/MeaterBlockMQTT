@@ -6,10 +6,16 @@ import math
 from string import Template
 import time
 import ast
+from configparser import ConfigParser
 
-MQTT_HOSTNAME = "<MQTT.HOSTNAME>"  # IP or FQDN of MQTT Server
-MQTT_PORT = 1883
-blockTImeout = 60  # wait this many seconds before sending blockOff 
+config = ConfigParser()
+
+config.read('config.ini')
+MQTT_HOSTNAME = config.get('main', 'MQTT_HOSTNAME')
+MQTT_PORT = config.getint('main', 'MQTT_PORT')
+MQTT_TIMEOUT = config.getint('main', 'MQTT_TIMEOUT')
+BLOCK_TIMEOUT = config.getint('main', 'BLOCK_TIMEOUT')
+BLOCK_UDP_PORT = config.getint('main', 'BLOCK_UDP_PORT')
 
 
 def probe_data(offset, data):
@@ -179,12 +185,12 @@ def processPacket(packet):
 mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
 mqttc.on_disconnect = on_disconnect
-mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, 60)
+mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, MQTT_TIMEOUT)
 
 # udp socket to listen to
 s_client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s_client.setblocking(0)
-s_client.bind(('', 7878))
+s_client.bind(('', BLOCK_UDP_PORT))
 
 # mqtt topics
 topicCook = Template("meater/probe/$id/cook")
@@ -230,5 +236,5 @@ while(1):
     for s in exceptional:
         print("exceptional")
 
-    if time.time() - lastReceive > blockTImeout:
+    if time.time() - lastReceive > BLOCK_TIMEOUT:
         blockStatus = sendBlockOff(blockStatus)
