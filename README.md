@@ -1,6 +1,14 @@
 # MeaterBlock to mqtt
 I wanted to get the block info into Home Assistant.  Easiest way to to take the udp packet and resend over mqtt.
 
+
+## Usage
+copy config_default.ini to config.ini  
+in config.ini change <MQTT_HOSTNAME> to the IP or FQDN of your MQTT server  
+run the program with (requires python3):
+```
+python meater_reader_v2.py
+```
 ### Sources
 
 https://tvwbb.com/threads/meater-wire-free-probe-intergration.71564/
