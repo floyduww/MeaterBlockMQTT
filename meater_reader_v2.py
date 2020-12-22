@@ -21,7 +21,7 @@ BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT')
 def probe_data(offset, data):
     probe = {}
     big_sep = bytes.fromhex("30013a")
-    big_sep2 = bytes.fromhex("30003a") # occurs rarely and not sure why
+    big_sep2 = bytes.fromhex("30003a")  # occurs rarely and not sure why
 
     bc = int.from_bytes(data[offset:offset+1], "little")
 
