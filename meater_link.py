@@ -174,7 +174,7 @@ def processPacket(packet):
         print("This is the phone app")
     #    return False
 
-    if (len(packet[0]) < 100):
+    if (len(packet[0]) < 97):
         print("Move along")
         return False
 
