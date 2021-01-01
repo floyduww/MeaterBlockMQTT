@@ -74,14 +74,15 @@ Finished cooking
 ```
 bc (rest of packet)                                                                    bc -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -|    bc -- -- -- -- -- -- -- -- -- -- -- -- -- -|       bc -- -- -- -- -- -- -- -|
                                                                                                                   bc
-      probe mac address -- -|    block mac address -- -|    p#    bat   sig      ?  -|       adj   on    temp           session number?-- -- -|          m tmp    a tmp    pt -|    ?     ct          probe version  -| _  p#
+      probe mac address -- -|    block mac address -- -|    p#    bat   sig   |bigSep|       adj   on    temp           session number?-- -- -|          m tmp    a tmp    pt -|    ?     ct          probe version  -| _  p#
 48 09 00 e3 1a ae b6 25 25 67 11 d0 17 34 19 1d c7 f8 d2 18 04 20 07 28 39    30 01 3a 12 08 05 10 00 18 f3 08 2a 00 39 9d dd 85 55 60 3d d3 60 42 0e 08 b6 05 10 b6 05 18 ff 0f 20 01 28 bc 18    4a 08 76 31 2e 30 2e 35 5f 34
 47 09 19 9f 43 63 83 e2 b5 33 11 d0 17 34 19 1d c7 f8 d2 18 01 20 07 28 a5 01 30 01 3a 0f 08 1c 10 00 18 00          39 e4 f8 cd 0d 17 54 1f 60 42 0f 08 b0 05 10 b0 05 18 ff 0f 20 01 28 e7 e4 02 4a 08 76 31 2e 30 2e 35 5f 31 
 44 09 1a a0 f1 76 21 5a a4 42 11 d0 17 34 19 1d c7 f8 d2 18 02 20 06 28 37    30 00 3a 0f 08 20 10 00 18 00          39 10 64 83 18 1f 84 00 60 42 0d 08 b8 05 10 b8 05 18 ff 0f 20 01 28 00       4a 08 76 31 2e 30 2e 35 5f 32 
-   sp                         sp                         sp    sp    sp       sp          sp    sp    sp       sp    sp                         sp    sp       sp       sp       sp                sp  
+   sp                         sp                         sp    sp    sp       sp    sp    sp    sp    sp       sp    sp                         sp    sp       sp       sp       sp                sp  
 ```
 
-`01 3a` is a big seperator
+`30 01 3a` is a big seperator
+`30 00 3a` is a big seperator
 
 `bc` - byte count  
 `sp` - seperator
@@ -131,11 +132,13 @@ meater/block/power
                            dev   inc   |- id                   -1 --                               block mac address -- -|    Pwr                  sw version- -- -- -- -- -| 
 0a 13 08 ca a8 01 10 0c 18 02 20 64 29 d0 17 34 19 1d c7 f8 d2 1a db 02 08 00 10 03 1a 1c 1a 1a 09 d0 17 34 19 1d c7 f8 d2 10 64 18 02 20 01 2a 09 76 2e 32 2e 30 2e 33 2e 39                                                                                                   
 0a 13 08 ca a8 01 10 0c 18 02 20 0f 29 d0 17 34 19 1d c7 f8 d2 1a 9e 02 08 00 10 03 1a 1c 1a 1a 09 d0 17 34 19 1d c7 f8 d2 10 66 18 02 20 01 2a 09 76 2e 32 2e 30 2e 33 2e 39
-                                                                                                sp                         sp                sp
+                  sp    sp    sp    sp                                                                                     sp                sp
 ```
+`bc1` - 
 `bc` - byte count  
 `sp` - seperator
 
+`dev` - device meaterblock(02), phone (01) ?
 `inc` - goes up every push, just rolls over  
 `bc1` - byte count of probe data  
 `pwr` - 66 on USB, <= 64 on batt  
@@ -149,8 +152,8 @@ meater/block/power
 0a 13 08 ca a8 01 10 0c 18 01 20 01 29 9a 6d 69 fa f1 60 f8 29 12 2d 0a 10 2c ef e7 37 91 78 20 ee 7f 7d dc cb a1 16 11 5e                                                                         10 02 22 0e 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 35    2a 03 32 2e 35 32 02 31 31 
 0a 13 08 ca a8 01 10 0c 18 01 20 04 29 af ba a9 28 2d 75 99 0f 12 3e 0a 20 d0 17 34 19 1d c7 f8 d2 6b 55 c4 8b e0 05 b3 0c 1a a0 f1 76 21 5a a4 42 00 e3 1a ae b6 25 25 67                         10 02 22 0f 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 33 61 2a 03 32 2e 35 32 02 31 31 
 0a 13 08 ca a8 01 10 0c 18 01 20 0b 29 af ba a9 28 2d 75 99 0f 12 3e 0a 20 d0 17 34 19 1d c7 f8 d2 6b 55 c4 8b e0 05 b3 0c 1a a0 f1 76 21 5a a4 42 00 e3 1a ae b6 25 25 67                         10 02 22 0f 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 33 61 2a 03 32 2e 35 32 02 31 31 
-
-                                                                                                                                                                                                         sp                                                 sp             sp  
+0a 13 08 ca a8 01 10 0c 18 01 20 5a 29 af ba a9 28 2d 75 99 0f 12 3e 0a 20 d0 17 34 19 1d c7 f8 d2 6b 55 c4 8b e0 05 b3 0c 1a a0 f1 76 21 5a a4 42 00 e3 1a ae b6 25 25 67                         10 02 22 0f 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 33 61 2a 03 32 2e 35 32 02 31 31 
+                  sp    sp    sp    sp                         sp    sp                                                                                                                            sp    sp                                                 sp             sp  
 ```
 `bc` - byte count  
 `sp` - seperator
@@ -166,6 +169,8 @@ meater/block/power
                                                                   bc rest of packet
                            dev   inc   |- phone mac         -|    bc    bc |- app id ?          -| |- probe mac         -|          bc |- Phone type                          -|    bc |-ver -|    bc |? ?|          
 0a 13 08 ca a8 01 10 0c 18 01 20 01 29 9a 6d 69 fa f1 60 f8 29 12 2d 0a 10 2c ef e7 37 91 78 20 ee 7f 7d dc cb a1 16 11 5e 10 02 22 0e 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 35 2a 03 32 2e 35 32 02 31 31 
+0a 13 08 ca a8 01 10 0c 18 01 20 01 29 9a 6d 69 fa f1 60 f8 29 12 2d 0a 10 2c ef e7 37 91 78 20 ee 7f 7d dc cb a1 16 11 5e 10 02 22 0e 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 35 2a 03 32 2e 35 32 02 31 31
+0a 13 08 ca a8 01 10 0c 18 01 20 01 29 e5 d7 48 7a 62 b8 13 3f 12 2f 0a 10 2c ef e7 37 91 78 20 ee 7f 7d dc cb a1 16 11 5e 10 02 22 0e 47 6f 6f 67 6c 65 20 50 69 78 65 6c 20 33 2a 05 32 2e 34 2e 31 32 02 31 31 
 ```
 `bc` - byte count  
 `sp` - seperator
