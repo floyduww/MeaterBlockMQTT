@@ -10,22 +10,9 @@ from configparser import ConfigParser
 
 
 UDP_IP = "255.255.255.255"
-UDP_PORT = 7878
 MESSAGE2 = "0a1308caa801100c1801200129afbaa9282d75990f12460a28d01734191dc7f8d26b55c48be005b30c199f436383e2b5331aa0f176215aa44200e31aaeb62525671002220f476f6f676c6520506978656c2033612a03322e3532023131"
 
 msg_as_byte = bytearray.fromhex(MESSAGE2) 
-
-print("UDP target IP: %s" % UDP_IP)
-print("UDP target port: %s" % UDP_PORT)
-print("message: %s" % msg_as_byte)
-sock = socket(AF_INET, # Internet
-                     SOCK_DGRAM) # UDP
-# sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-sock.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)        
-sock.bind(('', 7878))             
-sock.sendto(msg_as_byte, (UDP_IP, UDP_PORT))
-sock.close()
-
 
 config = ConfigParser()
 
@@ -168,16 +155,16 @@ def processPacket(packet):
     hex_string = "".join("%02x " % b for b in packet[0])
     print(hex_string)
 
-    # less than 150 assumes phone app
+    # less than 97 assumes phone app
     # check byte 9.  (01 for phone, 02 for block)
     if (theData[9:10].hex() == "01"):
         print("This is the phone app")
     #    return False
 
+    # less than 97 assumes phone app ping
     if (len(packet[0]) < 97):
         print("Move along")
         return False
-
 
     blockStatus = sendBlockOn()
     lastReceive = time.time()
@@ -212,6 +199,7 @@ mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, MQTT_TIMEOUT)
 # udp socket to listen to
 s_client = socket(AF_INET, SOCK_DGRAM)
 s_client.setblocking(0)
+s_client.setsockopt(SOL_SOCKET, SO_BROADCAST, 1) 
 s_client.bind(('', BLOCK_UDP_PORT))
 
 # mqtt topics
@@ -232,6 +220,7 @@ outputs = []
 socket_timeout = 1
 
 lastReceive = time.time()
+lastSend = time.time()
 blockStatus = 1
 
 
@@ -255,6 +244,10 @@ while(1):
 
     for s in exceptional:
         print("exceptional")
+
+    if time.time() - lastSend > 15:
+        s_client.sendto(msg_as_byte, (UDP_IP,BLOCK_UDP_PORT))
+        lastSend = time.time()
 
     if time.time() - lastReceive > BLOCK_TIMEOUT:
         blockStatus = sendBlockOff(blockStatus)
