@@ -9,6 +9,7 @@
 "0f": "Beef Brisket",
 "11": "Beef Tenderloin",
 "1c": "Pork Chop",
+"1e": "Pork Tenderloin",
 "22": "Pork",
 "26": "Pork Shoulder",
 "2c": "Pork Tongue",
