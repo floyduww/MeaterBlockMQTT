@@ -184,7 +184,8 @@ def processPacket(packet):
     powerStatusInt = int.from_bytes(block_power, "little")
     mqttc.publish(topicBlockPower, str(powerStatusInt), qos=0, retain=True)
 
-    if (theData[23:24] == "08"):
+ 
+    if (theData[23:24].hex() == "08"):
         probe_start = 27
     else:
         probe_start = 28
@@ -193,9 +194,7 @@ def processPacket(packet):
     while(theData[probe_start:probe_start+1].hex() == '1a'):
         probe_num = probe_num + 1
         probes[probe_num] = probe_data(probe_start +3, theData)
-        probe_start = probes[probe_num]["end"]
-        print(theData[probes[1]["end"]:probes[1]["end"] + 1].hex())
-    
+        probe_start = probes[probe_num]["end"]    
 
     for id in probes:
         probe = probes[id]
