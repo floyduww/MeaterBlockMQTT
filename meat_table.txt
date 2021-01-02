@@ -2,6 +2,7 @@
 "02": "Rib-Eye Steak",
 "03": "Sirloin Steak",
 "04": "Flank Steak",
+"05": "T-Bone Steak",
 "06": "Pincha Steak",
 "08": "Tomahawk Steak",
 "0a": "Fliet Mignon",
@@ -23,8 +24,10 @@
 "55": "Salmon Other",
 "57": "Wild Salmon Fillet",
 "58": "Wild Salmon Other",
+"5d": "Tuna Steak",
 "7c": "Venison Steak",
 "a801": "Pork Loin",
+"8001": "Buffalo Roast",
 "8b01": "Kangaroo Steak",
 "9601": "Pork Butt",
 }
