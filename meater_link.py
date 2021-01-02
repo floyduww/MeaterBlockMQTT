@@ -13,7 +13,7 @@ UDP_IP = "255.255.255.255"
 
 # This is build the device broadcast string.  Needs to be customized with mac, dev type, sw version etc.
 MAC_HEX = "bfbaa9282d75990f"
-DEV_TYPE = "Py Meater V0.01"
+DEV_TYPE = "Py Meater V0.01"  # (14 bytes available w/o doing calculations)
 DEV_TYPE_HEX = "5079204d65617465722056302e3031"
 SW_VERSION_HEX = "322e35"
 MESSAGE = "0a1308caa801100c1801200129" + MAC_HEX + "12460a28d01734191dc7f8d26b55c48be005b30c199f436383e2b5331aa0f176215aa44200e31aaeb62525671002220f" + DEV_TYPE_HEX + "2a03" + SW_VERSION_HEX + "32023131"
@@ -208,6 +208,9 @@ s_client.setblocking(0)
 s_client.setsockopt(SOL_SOCKET, SO_BROADCAST, 1) 
 s_client.bind(('', BLOCK_UDP_PORT))
 
+# send initial broadcast
+s_client.sendto(msg_as_byte, (UDP_IP,BLOCK_UDP_PORT))
+
 # mqtt topics
 topicCook = Template("meater/probe/$id/cook")
 topicBattery = Template("meater/probe/$id/battery")
@@ -251,7 +254,7 @@ while(1):
     for s in exceptional:
         print("exceptional")
 
-    if time.time() - lastSend > 5:
+    if time.time() - lastSend > 15:
         s_client.sendto(msg_as_byte, (UDP_IP,BLOCK_UDP_PORT))
         lastSend = time.time()
 
