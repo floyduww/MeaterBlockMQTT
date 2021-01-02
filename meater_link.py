@@ -168,7 +168,7 @@ def processPacket(packet):
 
         # check if byte 21 is '1a', I think this means 'I have data'
         if (theData[21:22].hex() == "1a"):
-            print ("I am Meater Link")
+            print("I am Meater Link")
         else:
             print("Move along")
             return False
