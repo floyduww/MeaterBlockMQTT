@@ -165,12 +165,13 @@ def processPacket(packet):
     # check byte 9.  (01 for phone, 02 for block)
     if (theData[9:10].hex() == "01"):
         print("This is the phone app")
-    #    return False
 
-    # less than 97 assumes phone app ping
-    if (len(packet[0]) < 97):
-        print("Move along")
-        return False
+        # check if byte 21 is '1a', I think this means 'I have data'
+        if (theData[21:22].hex() == "1a"):
+            print ("I am Meater Link")
+        else:
+            print("Move along")
+            return False
 
     blockStatus = sendBlockOn()
     lastReceive = time.time()
