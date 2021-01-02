@@ -25,5 +25,6 @@
 "58": "Wild Salmon Other",
 "7c": "Venison Steak",
 "a801": "Pork Loin",
+"8b01": "Kangaroo Steak",
 "9601": "Pork Butt",
 }

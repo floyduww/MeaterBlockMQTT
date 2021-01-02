@@ -30,7 +30,7 @@ def probe_data(offset, data):
     probeData = data[offset + 1: probe["end"]]
 
     probe["bc"] = bc
-    probe["data"] = probeData
+    probe["data"] = probeData.hex()
 
     probe["batt"] = int.from_bytes(probeData[21:22], "little")
 
@@ -149,10 +149,12 @@ def processPacket(packet):
     hex_string = "".join("%02x " % b for b in packet[0])
     print(hex_string)
 
-    # less than 150 assumes phone app
     # check byte 9.  (01 for phone, 02 for block)
-    if (theData[9:10].hex() == "01"):
-        print("This is the phone app")
+    # check if byte 21 is '1a', I think this means 'I have data'
+    if (theData[21:22].hex() == "1a"):
+        print("I am Meater Block")
+    else:
+        print("Move along")
         return False
 
     blockStatus = sendBlockOn()
@@ -164,17 +166,12 @@ def processPacket(packet):
     powerStatusInt = int.from_bytes(block_power, "little")
     mqttc.publish(topicBlockPower, str(powerStatusInt), qos=0, retain=True)
 
-    probe_1_start = 61
-    probes[1] = probe_data(probe_1_start, theData)
-
-    probe_2_start = probes[1]["end"] + 3
-    probes[2] = probe_data(probe_2_start, theData)
-
-    probe_3_start = probes[2]["end"] + 3
-    probes[3] = probe_data(probe_3_start, theData)
-
-    probe_4_start = probes[3]["end"] + 3
-    probes[4] = probe_data(probe_4_start, theData)
+    probe_start = 58
+    probe_num = 0
+    while(theData[probe_start:probe_start+1].hex() == '1a'):
+        probe_num = probe_num + 1
+        probes[probe_num] = probe_data(probe_start +3, theData)
+        probe_start = probes[probe_num]["end"]
 
     for id in probes:
         probe = probes[id]

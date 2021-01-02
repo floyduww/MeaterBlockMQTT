@@ -161,7 +161,6 @@ def processPacket(packet):
     hex_string = "".join("%02x " % b for b in packet[0])
     print(hex_string)
 
-    # less than 97 assumes phone app
     # check byte 9.  (01 for phone, 02 for block)
     if (theData[9:10].hex() == "01"):
         print("This is the phone app")
@@ -172,6 +171,9 @@ def processPacket(packet):
         else:
             print("Move along")
             return False
+    else:
+        print("Use meater_reader_v2.py to read from the block")
+        return False
 
     blockStatus = sendBlockOn()
     lastReceive = time.time()
@@ -182,8 +184,18 @@ def processPacket(packet):
     powerStatusInt = int.from_bytes(block_power, "little")
     mqttc.publish(topicBlockPower, str(powerStatusInt), qos=0, retain=True)
 
-    probe_1_start = 30
-    probes[1] = probe_data(probe_1_start, theData)
+    if (theData[23:24] == "08"):
+        probe_start = 27
+    else:
+        probe_start = 28
+
+    probe_num = 0
+    while(theData[probe_start:probe_start+1].hex() == '1a'):
+        probe_num = probe_num + 1
+        probes[probe_num] = probe_data(probe_start +3, theData)
+        probe_start = probes[probe_num]["end"]
+        print(theData[probes[1]["end"]:probes[1]["end"] + 1].hex())
+    
 
     for id in probes:
         probe = probes[id]
