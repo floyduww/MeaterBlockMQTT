@@ -83,6 +83,8 @@ def probe_data(offset, data):
         else:
             if probe["meat_type"] in dictionary.keys():
                 probe["cook_name"] = dictionary[probe["meat_type"]]
+            else:
+                probe["cook_name"] = probe["meat_type"]                
 
     return probe
 
