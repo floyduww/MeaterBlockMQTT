@@ -11,10 +11,14 @@ from configparser import ConfigParser
 
 UDP_IP = "255.255.255.255"
 
-# This is a dummy ping string.  Needs to be customized with mac, dev type, sw version etc.
-MESSAGE2 = "0a1308caa801100c1801200129afbaa9282d75990f12460a28d01734191dc7f8d26b55c48be005b30c199f436383e2b5331aa0f176215aa44200e31aaeb62525671002220f476f6f676c6520506978656c2033612a03322e3532023131"
+# This is build the device broadcast string.  Needs to be customized with mac, dev type, sw version etc.
+MAC_HEX = "bfbaa9282d75990f"
+DEV_TYPE = "Py Meater V0.01"
+DEV_TYPE_HEX = "5079204d65617465722056302e3031"
+SW_VERSION_HEX = "322e35"
+MESSAGE = "0a1308caa801100c1801200129" + MAC_HEX + "12460a28d01734191dc7f8d26b55c48be005b30c199f436383e2b5331aa0f176215aa44200e31aaeb62525671002220f" + DEV_TYPE_HEX + "2a03" + SW_VERSION_HEX + "32023131"
 
-msg_as_byte = bytearray.fromhex(MESSAGE2) 
+msg_as_byte = bytearray.fromhex(MESSAGE) 
 
 config = ConfigParser()
 
