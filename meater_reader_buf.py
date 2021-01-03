@@ -10,6 +10,9 @@ from configparser import ConfigParser
 
 import protobuf.meater_block_pb2
 
+import sys,os
+sys.path.append(os.getcwd())
+
 UDP_IP = "255.255.255.255"
 
 
