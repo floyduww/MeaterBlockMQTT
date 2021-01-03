@@ -183,3 +183,15 @@ meater/block/power
 `??`  - not sure if this is an id like probe id or a verion sub number  
 `probe mac` - bluetooth id of the probe
 `app id` - bluetooth id of the phone
+
+### Handshake
+
+This is what I know so far.
+
+Seems the phone app (v2.5) when using Meater or Meater+ will broadcast it's presence on UDP 7878. In this broadcast it sends what it's 'mac' is and the probe macs that it knows about.
+
+When this app sees that broadcast it will put those macs into a request broadcast.  It will then broadcast out asking if anyone can send it that data.
+
+The phone app then starts directly sending the probe data to this app.
+
+This app must also repeat the broadcast request at least about every 30 seconds as a keep alive to keep the phone app sending data too it
