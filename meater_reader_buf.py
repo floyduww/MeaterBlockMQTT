@@ -27,9 +27,14 @@ config.read('config.ini')
 MQTT_HOSTNAME = config.get('mqtt', 'MQTT_HOSTNAME')
 MQTT_PORT = config.getint('mqtt', 'MQTT_PORT')
 MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT')
+MQTT_USEAUTH = config.get('mqtt', 'MQTT_USEAUTH')
+MQTT_USERNAME = config.get('mqtt', 'MQTT_USERNAME')
+MQTT_PASSWORD = config.get('mqtt', 'MQTT_PASSWORD')
+
 BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT')
 BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT')
 SCALE = config.get('block', 'SCALE')
+MEAT_TABLE_FILE = config.get('block', 'MEAT_TABLE_FILE')
 
 
 def probe_data(probe):
@@ -163,6 +168,8 @@ def processPacket(packet):
 mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
 mqttc.on_disconnect = on_disconnect
+if (MQTT_USEAUTH):
+    mqttc.username_pw_set(username=MQTT_USERNAME,password=MQTT_PASSWORD)
 mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, MQTT_TIMEOUT)
 
 # udp socket to listen to
@@ -197,7 +204,7 @@ lastSend = time.time()
 blockStatus = 1
 
 
-file = open("meat_table.txt", "r")
+file = open(MEAT_TABLE_FILE, "r")
 
 contents = file.read()
 dictionary = ast.literal_eval(contents)
