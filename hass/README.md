@@ -11,7 +11,7 @@ lovelace_dashboard.yaml was pulled from the lovelace raw editor
 Add to your configuration.yaml
 ```
 shell_command:
-    meater_block: 'python3 /pathtoscript/meater_reader_v2.py' 
+    meater_block: 'python3 /pathtoscript/meater_reader_buf.py' 
 ```
 
 # Start the script automatically via Node-Red when Meater Block connects to wifi
