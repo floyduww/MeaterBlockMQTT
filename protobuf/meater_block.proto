@@ -1,0 +1,74 @@
+syntax = "proto2";
+
+package meater_link;
+
+message MeaterLink {
+  required DeviceData device = 1;
+  optional LinkData linkData = 3;
+  
+}
+
+message DeviceData {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;
+    optional int32 device_type = 3;
+    optional int32 inc = 4;
+    optional fixed64 part5 = 5;
+}
+
+message LinkData {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;    
+    optional Probes part3 = 3;  
+
+}
+
+
+message BlockInfo {
+    optional fixed64 part1 = 1;    
+    optional uint32 power = 2;    
+    optional uint32 part3 = 3;    
+    optional uint32 part4 = 4;   
+    optional string part5 = 5;
+}
+
+message Probes {
+    repeated Probe probe = 1;
+    optional BlockInfo blockInfo = 3;
+}
+
+message Probe {
+    optional fixed64 part1 = 1;
+    optional fixed64 part2 = 2;
+    optional int32 probe_id_num = 3;
+    optional int32 battery = 4;
+    optional int32 ble_signal = 5;
+    optional int32 part6 = 6;
+    optional CookData cook_data = 7;
+    optional CurrentTemps current_temps = 8;
+    optional string sw_version = 9;
+}
+
+message CookData {
+    optional int32 num_adj = 1;
+    optional int32 cook_stage = 2;
+    optional int32 targ_temp_raw = 3;
+    optional int32 meat_type_int = 4;
+    optional string cook_name = 5;
+    optional Block2Sub1Sub1Sub1Sub1 block2sub1sub1sub1sub1 = 6;    
+    optional fixed64 part7 = 7;
+}
+
+message CurrentTemps {
+    optional int32 m_temp_raw = 1;
+    optional int32 a_temp_raw = 2;
+    optional int32 pk_temp_raw = 3;
+    optional int32 part4 = 4;
+    optional int32 cook_counter = 5;
+}
+
+message Block2Sub1Sub1Sub1Sub1 {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;
+    optional int32 part3 = 3;
+}
