@@ -12,15 +12,14 @@ import protobuf.meater_block_pb2
 
 UDP_IP = "255.255.255.255"
 
-# This is build the device broadcast string.  Needs to be customized with mac, dev type, sw version etc.
-MAC_HEX = "bfbaa9282d75990f"
-DEV_TYPE = "Py Meater V0.01"  # (14 bytes available w/o doing calculations)
-DEV_TYPE_HEX = "5079204d65617465722056302e3031"
-SW_VERSION_HEX = "322e35"
-MESSAGE = "0a1308caa801100c1801200129" + MAC_HEX + "12460a28d01734191dc7f8d26b55c48be005b30c199f436383e2b5331aa0f176215aa44200e31aaeb62525671002220f" + DEV_TYPE_HEX + "2a03" + SW_VERSION_HEX + "32023131"
 
-#mat# MESSAGE = "0a1308caa801100c18012001299a6d69faf160f829122d0a102cefe737917820ee7f7ddccba116115e1002220e476f6f676c6520506978656c20352a03322e3532023131"
-msg_as_byte = bytearray.fromhex(MESSAGE) 
+# This is to build the device broadcast string. 
+thisDevice = protobuf.meater_block_pb2.MeaterLink()
+thisDevice.device.part1 = 21578
+thisDevice.device.part2 = 12
+thisDevice.device.device_type = 3
+thisDevice.device.inc = 1
+thisDevice.device.device_mac = 42
 
 config = ConfigParser()
 
@@ -30,23 +29,17 @@ MQTT_PORT = config.getint('mqtt', 'MQTT_PORT')
 MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT')
 BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT')
 BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT')
-SCALE = "F"
+SCALE = config.get('block', 'SCALE')
 
 
 def probe_data(probe):
     probeArr = {}
 
     probeArr["batt"] = probe.battery
-
     probeArr["sig"] = probe.ble_signal
-
-
     probeArr["cooking"] = "0" + str(probe.cook_data.cook_stage)
-
     probeArr["m_temp"] = math.floor(toScale(probe.current_temps.m_temp_raw))  
-
     probeArr["a_temp"] = math.floor(toScale(probe.current_temps.a_temp_raw))
-
     probeArr["version"] = probe.sw_version
     probeArr["targ_temp"] = 0
     probeArr["cook_name"] = ""
@@ -65,6 +58,7 @@ def probe_data(probe):
                 probeArr["cook_name"] = probeArr["meat_type"]                
 
     return probeArr
+    
 
 def toCelsius(value):
     return (float(value))/32.0
@@ -104,7 +98,7 @@ def sendBlockOn():
 def sendBlockOff(blockStatus):
     if blockStatus:
         mqttc.publish(topicBlockStatus, "off", qos=0, retain=True)
-        print("blockOff")
+        print("Meater Link Off")
 
     return 0
 
@@ -113,24 +107,30 @@ def processPacket(packet):
     global blockStatus
     global lastReceive
 
+    global thisDevice
+
     print("-----------------")
     print('len(packet)='+str(len(packet)))
     print('len(packet[0])='+str(len(packet[0])))
     print('len(packet[1])='+str(len(packet[1])))
     print(packet[1])
 
-    block2 = protobuf.meater_block_pb2.MeaterLink()
-    block2.ParseFromString(packet[0])
-    print("---block2---")
-    print(block2)
+    meater_link = protobuf.meater_block_pb2.MeaterLink()
     print(packet[0].hex())
-    print(block2.SerializeToString().hex())
+    meater_link.ParseFromString(packet[0])
+    print("---meater_link---")
+    print(meater_link)
+    print(meater_link.SerializeToString().hex())
 
     # check byte 9.  (01 for phone, 02 for block)
     # check if byte 21 is '1a', I think this means 'I have data'
-    if (block2.linkData):
+    if (meater_link.HasField('linkData')):
         print("I have data")
     else:
+        if (meater_link.HasField('queryData')):
+            for some_int in  meater_link.queryData.some_int:
+                if (some_int not in thisDevice.queryData.some_int ):
+                    thisDevice.queryData.some_int.append(some_int)
         print("Move along")
         return False
 
@@ -139,17 +139,16 @@ def processPacket(packet):
 
     probes = {}
 
-    block_power = block2.linkData.part3.blockInfo.power
+    block_power = meater_link.linkData.part3.blockInfo.power
     mqttc.publish(topicBlockPower, str(block_power), qos=0, retain=True)
 
     probe_num = 0
-    for probe in block2.linkData.part3.probe:
+    for probe in meater_link.linkData.part3.probe:
          probe_num = probe_num + 1
          probes[probe_num] = probe_data(probe)
 
     for id in probes:
         probe = probes[id]
-        print(probe)
         mqttc.publish(topicCook.substitute(id=id), probe["cooking"], qos=0, retain=True)
         mqttc.publish(topicBattery.substitute(id=id), probe["batt"], qos=0, retain=True)
         mqttc.publish(topicCookName.substitute(id=id), probe["cook_name"], qos=0, retain=True)
@@ -172,6 +171,7 @@ s_client.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
 s_client.bind(('', BLOCK_UDP_PORT))
 
 # send initial broadcast
+msg_as_byte = bytearray.fromhex(thisDevice.SerializeToString().hex())
 s_client.sendto(msg_as_byte, (UDP_IP,BLOCK_UDP_PORT))
 
 # mqtt topics
@@ -218,7 +218,8 @@ while(1):
     for s in exceptional:
         print("exceptional")
 
-    if time.time() - lastSend > 15:
+    if time.time() - lastSend > 5:
+        msg_as_byte = bytearray.fromhex(thisDevice.SerializeToString().hex()) 
         s_client.sendto(msg_as_byte, (UDP_IP,BLOCK_UDP_PORT))
         lastSend = time.time()
 

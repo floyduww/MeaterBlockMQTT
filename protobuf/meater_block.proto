@@ -4,6 +4,7 @@ package meater_link;
 
 message MeaterLink {
   required DeviceData device = 1;
+  optional Query queryData = 2;
   optional LinkData linkData = 3;
   
 }
@@ -13,8 +14,15 @@ message DeviceData {
     optional int32 part2 = 2;
     optional int32 device_type = 3;
     optional int32 inc = 4;
-    optional fixed64 part5 = 5;
+    optional fixed64 device_mac = 5;
 }
+
+message Query {
+    repeated fixed64 some_int = 1;
+    optional string part5 = 5;
+    optional string part6 = 6;
+}
+
 
 message LinkData {
     optional int32 part1 = 1;
@@ -25,7 +33,7 @@ message LinkData {
 
 
 message BlockInfo {
-    optional fixed64 part1 = 1;    
+    optional fixed64 device_mac = 1;    
     optional uint32 power = 2;    
     optional uint32 part3 = 3;    
     optional uint32 part4 = 4;   
@@ -34,12 +42,13 @@ message BlockInfo {
 
 message Probes {
     repeated Probe probe = 1;
+    
     optional BlockInfo blockInfo = 3;
 }
 
 message Probe {
-    optional fixed64 part1 = 1;
-    optional fixed64 part2 = 2;
+    optional fixed64 probe_mac = 1;
+    optional fixed64 device_mac = 2;
     optional int32 probe_id_num = 3;
     optional int32 battery = 4;
     optional int32 ble_signal = 5;
