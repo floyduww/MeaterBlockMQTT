@@ -24,9 +24,6 @@ https://github.com/nathanfaber/meaterble
 https://community.home-assistant.io/t/meater-thermometer/130501/40
 
 
-Known meat codes in meat_table.txt
-
-
 ### udp packet Breakdown
 Important bytes with the first 3 removed for probes compared to what [lkspencer](https://tvwbb.com/members/lkspencer.41726/) found.  This has to do with how I split the udp packet.
 These positions are approximate.  I found after initial inspection that that 
