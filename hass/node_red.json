@@ -1,0 +1,79 @@
+[
+    {
+        "id": "808fe618.1de788",
+        "type": "server-state-changed",
+        "z": "89a67b5c.2f9a08",
+        "name": "Meater Connected",
+        "server": "7cacd9ad.e267e8",
+        "version": 1,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "device_tracker.meaterblock",
+        "entityidfiltertype": "exact",
+        "outputinitially": true,
+        "state_type": "str",
+        "haltifstate": "home",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 2,
+        "output_only_on_state_change": true,
+        "for": "",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "22519c6f.875684"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "22519c6f.875684",
+        "type": "api-call-service",
+        "z": "89a67b5c.2f9a08",
+        "name": "Start meater script",
+        "server": "7cacd9ad.e267e8",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "shell_command",
+        "service": "meater_block",
+        "entityId": "",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 720,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7cacd9ad.e267e8",
+        "type": "server",
+        "name": "hassio",
+        "legacy": false,
+        "addon": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true
+    }
+]
