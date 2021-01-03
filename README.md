@@ -11,7 +11,7 @@ run the program with (requires python3):
 ```
 python meater_reader_buf.py
 ```
-Note: meater_reader_v2.py has been depricated.
+Note: meater_reader_v2.py and meater_link.py have been depricated.
 
 ### Sources
 
