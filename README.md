@@ -11,6 +11,8 @@ run the program with (requires python3):
 ```
 python meater_reader_buf.py
 ```
+Note: meater_reader_v2.py has been depricated.
+
 ### Sources
 
 https://tvwbb.com/threads/meater-wire-free-probe-intergration.71564/
