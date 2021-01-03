@@ -7,7 +7,7 @@ copy config_default.ini to config.ini
 in config.ini change <MQTT_HOSTNAME> to the IP or FQDN of your MQTT server  
 run the program with (requires python3):
 ```
-python meater_reader_v2.py
+python meater_reader_buf.py
 ```
 ### Sources
 
