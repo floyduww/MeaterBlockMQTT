@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x12meater_block.proto\x12\x0bmeater_link\"\x85\x01\n\nMeaterLink\x12\'\n\x06\x64\x65vice\x18\x01 \x02(\x0b\x32\x17.meater_link.DeviceData\x12%\n\tqueryData\x18\x02 \x01(\x0b\x32\x12.meater_link.Query\x12\'\n\x08linkData\x18\x03 \x01(\x0b\x32\x15.meater_link.LinkData\"`\n\nDeviceData\x12\r\n\x05part1\x18\x01 \x01(\x05\x12\r\n\x05part2\x18\x02 \x01(\x05\x12\x13\n\x0b\x64\x65vice_type\x18\x03 \x01(\x05\x12\x0b\n\x03inc\x18\x04 \x01(\x05\x12\x12\n\ndevice_mac\x18\x05 \x01(\x06\"7\n\x05Query\x12\x10\n\x08some_int\x18\x01 \x03(\x06\x12\r\n\x05part5\x18\x05 \x01(\t\x12\r\n\x05part6\x18\x06 \x01(\t\"L\n\x08LinkData\x12\r\n\x05part1\x18\x01 \x01(\x05\x12\r\n\x05part2\x18\x02 \x01(\x05\x12\"\n\x05part3\x18\x03 \x01(\x0b\x32\x13.meater_link.Probes\"[\n\tBlockInfo\x12\x12\n\ndevice_mac\x18\x01 \x01(\x06\x12\r\n\x05power\x18\x02 \x01(\r\x12\r\n\x05part3\x18\x03 \x01(\r\x12\r\n\x05part4\x18\x04 \x01(\r\x12\r\n\x05part5\x18\x05 \x01(\t\"V\n\x06Probes\x12!\n\x05probe\x18\x01 \x03(\x0b\x32\x12.meater_link.Probe\x12)\n\tblockInfo\x18\x03 \x01(\x0b\x32\x16.meater_link.BlockInfo\"\xec\x01\n\x05Probe\x12\x11\n\tprobe_mac\x18\x01 \x01(\x06\x12\x12\n\ndevice_mac\x18\x02 \x01(\x06\x12\x14\n\x0cprobe_id_num\x18\x03 \x01(\x05\x12\x0f\n\x07\x62\x61ttery\x18\x04 \x01(\x05\x12\x12\n\nble_signal\x18\x05 \x01(\x05\x12\x11\n\tconnected\x18\x06 \x01(\x05\x12(\n\tcook_data\x18\x07 \x01(\x0b\x32\x15.meater_link.CookData\x12\x30\n\rcurrent_temps\x18\x08 \x01(\x0b\x32\x19.meater_link.CurrentTemps\x12\x12\n\nsw_version\x18\t \x01(\t\"\xc4\x01\n\x08\x43ookData\x12\x0f\n\x07num_adj\x18\x01 \x01(\x05\x12\x12\n\ncook_stage\x18\x02 \x01(\x05\x12\x15\n\rtarg_temp_raw\x18\x03 \x01(\x05\x12\x15\n\rmeat_type_int\x18\x04 \x01(\x05\x12\x11\n\tcook_name\x18\x05 \x01(\t\x12\x43\n\x16\x62lock2sub1sub1sub1sub1\x18\x06 \x01(\x0b\x32#.meater_link.Block2Sub1Sub1Sub1Sub1\x12\r\n\x05part7\x18\x07 \x01(\x06\"p\n\x0c\x43urrentTemps\x12\x12\n\nm_temp_raw\x18\x01 \x01(\x05\x12\x12\n\na_temp_raw\x18\x02 \x01(\x05\x12\x13\n\x0bpk_temp_raw\x18\x03 \x01(\x05\x12\r\n\x05part4\x18\x04 \x01(\x05\x12\x14\n\x0c\x63ook_counter\x18\x05 \x01(\x05\"E\n\x16\x42lock2Sub1Sub1Sub1Sub1\x12\r\n\x05part1\x18\x01 \x01(\x05\x12\r\n\x05part2\x18\x02 \x01(\x05\x12\r\n\x05part3\x18\x03 \x01(\x05'
+  serialized_pb=b'\n\x12meater_block.proto\x12\x0bmeater_link\"\x85\x01\n\nMeaterLink\x12\'\n\x06\x64\x65vice\x18\x01 \x02(\x0b\x32\x17.meater_link.DeviceData\x12%\n\tqueryData\x18\x02 \x01(\x0b\x32\x12.meater_link.Query\x12\'\n\x08linkData\x18\x03 \x01(\x0b\x32\x15.meater_link.LinkData\"`\n\nDeviceData\x12\r\n\x05part1\x18\x01 \x01(\x05\x12\r\n\x05part2\x18\x02 \x01(\x05\x12\x13\n\x0b\x64\x65vice_type\x18\x03 \x01(\x05\x12\x0b\n\x03inc\x18\x04 \x01(\x05\x12\x12\n\ndevice_mac\x18\x05 \x01(\x06\"<\n\x05Query\x12\x10\n\x08some_int\x18\x01 \x03(\x06\x12\x12\n\nsw_version\x18\x05 \x01(\t\x12\r\n\x05part6\x18\x06 \x01(\t\"L\n\x08LinkData\x12\r\n\x05part1\x18\x01 \x01(\x05\x12\r\n\x05part2\x18\x02 \x01(\x05\x12\"\n\x05part3\x18\x03 \x01(\x0b\x32\x13.meater_link.Probes\"`\n\tBlockInfo\x12\x12\n\ndevice_mac\x18\x01 \x01(\x06\x12\r\n\x05power\x18\x02 \x01(\r\x12\r\n\x05part3\x18\x03 \x01(\r\x12\r\n\x05part4\x18\x04 \x01(\r\x12\x12\n\nfw_version\x18\x05 \x01(\t\"V\n\x06Probes\x12!\n\x05probe\x18\x01 \x03(\x0b\x32\x12.meater_link.Probe\x12)\n\tblockInfo\x18\x03 \x01(\x0b\x32\x16.meater_link.BlockInfo\"\xec\x01\n\x05Probe\x12\x11\n\tprobe_mac\x18\x01 \x01(\x06\x12\x12\n\ndevice_mac\x18\x02 \x01(\x06\x12\x14\n\x0cprobe_id_num\x18\x03 \x01(\x05\x12\x0f\n\x07\x62\x61ttery\x18\x04 \x01(\x05\x12\x12\n\nble_signal\x18\x05 \x01(\x05\x12\x11\n\tconnected\x18\x06 \x01(\x05\x12(\n\tcook_data\x18\x07 \x01(\x0b\x32\x15.meater_link.CookData\x12\x30\n\rcurrent_temps\x18\x08 \x01(\x0b\x32\x19.meater_link.CurrentTemps\x12\x12\n\nfw_version\x18\t \x01(\t\"\xc4\x01\n\x08\x43ookData\x12\x0f\n\x07num_adj\x18\x01 \x01(\x05\x12\x12\n\ncook_stage\x18\x02 \x01(\x05\x12\x15\n\rtarg_temp_raw\x18\x03 \x01(\x05\x12\x15\n\rmeat_type_int\x18\x04 \x01(\x05\x12\x11\n\tcook_name\x18\x05 \x01(\t\x12\x43\n\x16\x62lock2sub1sub1sub1sub1\x18\x06 \x01(\x0b\x32#.meater_link.Block2Sub1Sub1Sub1Sub1\x12\r\n\x05part7\x18\x07 \x01(\x06\"p\n\x0c\x43urrentTemps\x12\x12\n\nm_temp_raw\x18\x01 \x01(\x05\x12\x12\n\na_temp_raw\x18\x02 \x01(\x05\x12\x13\n\x0bpk_temp_raw\x18\x03 \x01(\x05\x12\r\n\x05part4\x18\x04 \x01(\x05\x12\x14\n\x0c\x63ook_counter\x18\x05 \x01(\x05\"E\n\x16\x42lock2Sub1Sub1Sub1Sub1\x12\r\n\x05part1\x18\x01 \x01(\x05\x12\r\n\x05part2\x18\x02 \x01(\x05\x12\r\n\x05part3\x18\x03 \x01(\x05'
 )
 
 
@@ -147,7 +147,7 @@ _QUERY = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='part5', full_name='meater_link.Query.part5', index=1,
+      name='sw_version', full_name='meater_link.Query.sw_version', index=1,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -173,7 +173,7 @@ _QUERY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=269,
-  serialized_end=324,
+  serialized_end=329,
 )
 
 
@@ -218,8 +218,8 @@ _LINKDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=326,
-  serialized_end=402,
+  serialized_start=331,
+  serialized_end=407,
 )
 
 
@@ -260,7 +260,7 @@ _BLOCKINFO = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='part5', full_name='meater_link.BlockInfo.part5', index=4,
+      name='fw_version', full_name='meater_link.BlockInfo.fw_version', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -278,8 +278,8 @@ _BLOCKINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=404,
-  serialized_end=495,
+  serialized_start=409,
+  serialized_end=505,
 )
 
 
@@ -317,8 +317,8 @@ _PROBES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=497,
-  serialized_end=583,
+  serialized_start=507,
+  serialized_end=593,
 )
 
 
@@ -387,7 +387,7 @@ _PROBE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sw_version', full_name='meater_link.Probe.sw_version', index=8,
+      name='fw_version', full_name='meater_link.Probe.fw_version', index=8,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -405,8 +405,8 @@ _PROBE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=586,
-  serialized_end=822,
+  serialized_start=596,
+  serialized_end=832,
 )
 
 
@@ -479,8 +479,8 @@ _COOKDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=825,
-  serialized_end=1021,
+  serialized_start=835,
+  serialized_end=1031,
 )
 
 
@@ -539,8 +539,8 @@ _CURRENTTEMPS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1023,
-  serialized_end=1135,
+  serialized_start=1033,
+  serialized_end=1145,
 )
 
 
@@ -585,8 +585,8 @@ _BLOCK2SUB1SUB1SUB1SUB1 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1137,
-  serialized_end=1206,
+  serialized_start=1147,
+  serialized_end=1216,
 )
 
 _MEATERLINK.fields_by_name['device'].message_type = _DEVICEDATA

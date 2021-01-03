@@ -19,7 +19,7 @@ message DeviceData {
 
 message Query {
     repeated fixed64 some_int = 1;
-    optional string part5 = 5;
+    optional string sw_version = 5;
     optional string part6 = 6;
 }
 
@@ -37,7 +37,7 @@ message BlockInfo {
     optional uint32 power = 2;    
     optional uint32 part3 = 3;    
     optional uint32 part4 = 4;   
-    optional string part5 = 5;
+    optional string fw_version = 5;
 }
 
 message Probes {
@@ -55,7 +55,7 @@ message Probe {
     optional int32 connected = 6;
     optional CookData cook_data = 7;
     optional CurrentTemps current_temps = 8;
-    optional string sw_version = 9;
+    optional string fw_version = 9;
 }
 
 message CookData {

@@ -40,7 +40,7 @@ def probe_data(probe):
     probeArr["cooking"] = "0" + str(probe.cook_data.cook_stage)
     probeArr["m_temp"] = math.floor(toScale(probe.current_temps.m_temp_raw))  
     probeArr["a_temp"] = math.floor(toScale(probe.current_temps.a_temp_raw))
-    probeArr["version"] = probe.sw_version
+    probeArr["version"] = probe.fw_version
     probeArr["targ_temp"] = 0
     probeArr["cook_name"] = ""
     probeArr["meat_type"] = ""
