@@ -145,7 +145,8 @@ def processPacket(packet):
     probe_num = 0
     for probe in meater_link.linkData.part3.probe:
          probe_num = probe_num + 1
-         probes[probe_num] = probe_data(probe)
+         if (probe.connected):
+            probes[probe_num] = probe_data(probe)
 
     for id in probes:
         probe = probes[id]

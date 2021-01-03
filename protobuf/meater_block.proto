@@ -52,7 +52,7 @@ message Probe {
     optional int32 probe_id_num = 3;
     optional int32 battery = 4;
     optional int32 ble_signal = 5;
-    optional int32 part6 = 6;
+    optional int32 connected = 6;
     optional CookData cook_data = 7;
     optional CurrentTemps current_temps = 8;
     optional string sw_version = 9;
