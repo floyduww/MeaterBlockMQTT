@@ -28,16 +28,16 @@ config = ConfigParser()
 
 config.read('config.ini')
 MQTT_HOSTNAME = config.get('mqtt', 'MQTT_HOSTNAME')
-MQTT_PORT = config.getint('mqtt', 'MQTT_PORT')
-MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT')
-MQTT_USEAUTH = config.get('mqtt', 'MQTT_USEAUTH')
+MQTT_PORT = config.getint('mqtt', 'MQTT_PORT',fallback=1883)
+MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT',fallback=60)
+MQTT_USEAUTH = config.getboolean('mqtt', 'MQTT_USEAUTH', fallback=False)
 MQTT_USERNAME = config.get('mqtt', 'MQTT_USERNAME')
 MQTT_PASSWORD = config.get('mqtt', 'MQTT_PASSWORD')
 
-BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT')
-BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT')
-SCALE = config.get('block', 'SCALE')
-MEAT_TABLE_FILE = config.get('block', 'MEAT_TABLE_FILE')
+BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT',fallback=60)
+BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT',fallback=7878)
+SCALE = config.get('block', 'SCALE', fallback='F')
+MEAT_TABLE_FILE = config.get('block', 'MEAT_TABLE_FILE', fallback="meat_table.txt")
 
 
 def probe_data(probe):
@@ -172,6 +172,7 @@ mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
 mqttc.on_disconnect = on_disconnect
 if (MQTT_USEAUTH):
+    print ("USE AUTH")
     mqttc.username_pw_set(username=MQTT_USERNAME,password=MQTT_PASSWORD)
 mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, MQTT_TIMEOUT)
 
