@@ -1,6 +1,8 @@
 # MeaterBlock to mqtt
 I wanted to get the block info into Home Assistant.  Easiest way to to take the udp packet and resend over mqtt.
 
+This project works but is still in it's infancy, so your milage may vary. 
+
 
 ## Usage
 requires python3-protobuf, python3-paho-mqtt, protobuf-compiler
