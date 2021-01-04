@@ -3,7 +3,7 @@ I wanted to get the block info into Home Assistant.  Easiest way to to take the 
 
 
 ## Usage
-requires python3-protobuf
+requires python3-protobuf, python3-paho-mqtt
 
 copy config_default.ini to config.ini  
 in config.ini change <MQTT_HOSTNAME> to the IP or FQDN of your MQTT server  
