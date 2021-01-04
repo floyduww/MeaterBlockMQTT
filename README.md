@@ -10,7 +10,6 @@ in config.ini change <MQTT_HOSTNAME> to the IP or FQDN of your MQTT server
 build the protobuf library file(must be done each time you update from github):  
 ```
 protoc -I=protobuf --python_out=protobuf meater_block.proto
-
 ```
 run the program with (requires python3):
 ```
