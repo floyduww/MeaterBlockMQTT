@@ -50,9 +50,9 @@
                     name: Ambient
                   - type: gauge
                     entity: sensor.meater_1_battery
-                    min: 4
+                    min: 1
                     name: Battery
-                    max: 8
+                    max: 9
                   - type: entity
                     entity: sensor.meater_1_target
                     name: Target
@@ -86,9 +86,9 @@
                     name: Ambient
                   - type: gauge
                     entity: sensor.meater_2_battery
-                    min: 4
+                    min: 1
                     name: Battery
-                    max: 8
+                    max: 9
                   - type: entity
                     entity: sensor.meater_2_target
                     name: Target
@@ -122,9 +122,9 @@
                     name: Ambient
                   - type: gauge
                     entity: sensor.meater_3_battery
-                    min: 4
+                    min: 1
                     name: Battery
-                    max: 8
+                    max: 9
                   - type: entity
                     entity: sensor.meater_3_target
                     name: Target
@@ -158,9 +158,9 @@
                     name: Ambient
                   - type: gauge
                     entity: sensor.meater_4_battery
-                    min: 4
+                    min: 1
                     name: Battery
-                    max: 8
+                    max: 9
                   - type: entity
                     entity: sensor.meater_4_target
                     name: Target

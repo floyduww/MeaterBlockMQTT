@@ -1,6 +1,8 @@
 # MeaterBlock to mqtt
 I wanted to get the block info into Home Assistant.  Easiest way to to take the udp packet and resend over mqtt.
 
+This project works but is still in it's infancy, so your milage may vary. 
+
 
 ## Usage
 requires python3-protobuf, python3-paho-mqtt, protobuf-compiler
@@ -10,7 +12,6 @@ in config.ini change <MQTT_HOSTNAME> to the IP or FQDN of your MQTT server
 build the protobuf library file(must be done each time you update from github):  
 ```
 protoc -I=protobuf --python_out=protobuf meater_block.proto
-
 ```
 run the program with (requires python3):
 ```
@@ -96,7 +97,7 @@ bc (rest of packet)                                                             
 `probe mac` - (8 bytes)  
 `block mac` - (8 bytes)  
 `p#` - (1 byte) probe number  
-`bat` - (1 byte) battery  (range 5-9)
+`bat` - (1 byte) battery  (range 1-9)
 `sig` - (1 or 2 byte) bluetooth signal  
 `adj` - (1 byte) number of adjustments that have been made to the cook (not 100% sure but that's what it appears to be related to)  
 `on` - (1 byte) this is the hex value indicating if the probe has an active cook going or not where 00 is no cook and anything else means it has a cook (I've seen 01, 02(cookint, 04(resting?, 05, 06)  
