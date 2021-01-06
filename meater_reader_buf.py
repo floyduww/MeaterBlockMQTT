@@ -136,8 +136,8 @@ def sendBlockOff(blockStatus):
 
         if(MQTT_ZERO_OUT):
             id = 1
-            mqttc.publish(topicMeat.substitute(id=id), probe["m_temp"], qos=0, retain=True)
-            mqttc.publish(topicAmbient.substitute(id=id), probe["a_temp"], qos=0, retain=True)
+            mqttc.publish(topicMeat.substitute(id=id), "0", qos=0, retain=True)
+            mqttc.publish(topicAmbient.substitute(id=id), "0", qos=0, retain=True)
         print("Meater Link Off")
 
     return 0
