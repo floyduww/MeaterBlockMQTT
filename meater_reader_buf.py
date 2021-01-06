@@ -7,10 +7,10 @@ from string import Template
 import time
 import ast
 from configparser import ConfigParser
+import sys,os
 
 import protobuf.meater_block_pb2
 
-import sys,os
 sys.path.append(os.getcwd())
 
 UDP_IP = "255.255.255.255"
@@ -26,19 +26,43 @@ thisDevice.device.device_mac = 42
 
 config = ConfigParser()
 
+MQTT_HOSTNAME = os.getenv('MQTT_HOSTNAME')
+MQTT_PORT = os.getenv('MQTT_PORT')
+MQTT_USEAUTH = os.getenv('MQTT_USEAUTH')
+MQTT_USERNAME = os.getenv('MQTT_USERNAME')
+MQTT_PASSWORD = os.getenv('MQTT_PASSWORD')
+MQTT_TIMEOUT = os.getenv('MQTT_TIMEOUT')
+MQTT_ZERO_OUT = os.getenv('MQTT_ZERO_OUT')
+
+BLOCK_TIMEOUT = os.getenv('BLOCK_TIMEOUT')
+BLOCK_UDP_PORT = os.getenv('BLOCK__UDP_PORT')
+SCALE = os.getenv('SCALE')
+MEAT_TABLE_FILE = os.getenv('MEAT_TABLE_FILE')
+
 config.read('config.ini')
-MQTT_HOSTNAME = config.get('mqtt', 'MQTT_HOSTNAME')
-MQTT_PORT = config.getint('mqtt', 'MQTT_PORT',fallback=1883)
-MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT',fallback=60)
-MQTT_USEAUTH = config.getboolean('mqtt', 'MQTT_USEAUTH', fallback=False)
-MQTT_USERNAME = config.get('mqtt', 'MQTT_USERNAME')
-MQTT_PASSWORD = config.get('mqtt', 'MQTT_PASSWORD')
+if (not MQTT_HOSTNAME):
+    MQTT_HOSTNAME = config.get('mqtt', 'MQTT_HOSTNAME', fallback="")
+if (not MQTT_PORT):
+    MQTT_PORT = config.getint('mqtt', 'MQTT_PORT',fallback=1883)
+if (not MQTT_TIMEOUT):
+    MQTT_TIMEOUT = config.getint('mqtt', 'MQTT_TIMEOUT',fallback=60)
+if (not MQTT_USEAUTH):    
+    MQTT_USEAUTH = config.getboolean('mqtt', 'MQTT_USEAUTH', fallback=False)
+if (not MQTT_USERNAME):    
+    MQTT_USERNAME = config.get('mqtt', 'MQTT_USERNAME', fallback="")
+if (not MQTT_PASSWORD):    
+    MQTT_PASSWORD = config.get('mqtt', 'MQTT_PASSWORD', fallback="")
+if (not MQTT_ZERO_OUT):    
+    MQTT_ZERO_OUT = config.getboolean('mqtt', 'MQTT_ZERO_OUT', fallback=False)
 
-BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT',fallback=60)
-BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT',fallback=7878)
-SCALE = config.get('block', 'SCALE', fallback='F')
-MEAT_TABLE_FILE = config.get('block', 'MEAT_TABLE_FILE', fallback="meat_table.txt")
-
+if (not BLOCK_TIMEOUT):
+    BLOCK_TIMEOUT = config.getint('block', 'BLOCK_TIMEOUT',fallback=60)
+if (not BLOCK_UDP_PORT):    
+    BLOCK_UDP_PORT = config.getint('block', 'BLOCK_UDP_PORT',fallback=7878)
+if (not SCALE):
+    SCALE = config.get('block', 'SCALE', fallback='F')
+if (not MEAT_TABLE_FILE):
+    MEAT_TABLE_FILE = config.get('block', 'MEAT_TABLE_FILE', fallback="meat_table.txt")
 
 def probe_data(probe):
     probeArr = {}
@@ -91,10 +115,13 @@ def on_publish(client, userdata, mid):
 
 def on_disconnect(mqttc, userdata, rc):
     if rc != 0:
-        print("Unexpected disconnection. Reconnecting...")
+        print("Unexpected disconnection.\nError Code: " + str(rc) + "\nReconnecting...")
         mqttc.reconnect()
     else:
         print("Disconnected successfully")
+
+def on_connect(mqttc, userdata, rc, something):
+    print("Connected to " + MQTT_HOSTNAME + " successfully")        
 
 
 def sendBlockOn():
@@ -106,6 +133,11 @@ def sendBlockOn():
 def sendBlockOff(blockStatus):
     if blockStatus:
         mqttc.publish(topicBlockStatus, "off", qos=0, retain=True)
+
+        if(MQTT_ZERO_OUT):
+            id = 1
+            mqttc.publish(topicMeat.substitute(id=id), probe["m_temp"], qos=0, retain=True)
+            mqttc.publish(topicAmbient.substitute(id=id), probe["a_temp"], qos=0, retain=True)
         print("Meater Link Off")
 
     return 0
@@ -129,12 +161,12 @@ def processPacket(packet):
     print("---meater_link---")
     print(meater_link)
     print(meater_link.SerializeToString().hex())
-
-    # check byte 9.  (01 for phone, 02 for block)
-    # check if byte 21 is '1a', I think this means 'I have data'
+ 
     if (meater_link.HasField('linkData')):
         print("I have data")
     else:
+        # this is for the handshake when using a meater or meater+
+        # some_int needs a more descriptive variable name
         if (meater_link.HasField('queryData')):
             for some_int in  meater_link.queryData.some_int:
                 if (some_int not in thisDevice.queryData.some_int ):
@@ -171,10 +203,10 @@ def processPacket(packet):
 mqttc = mqtt.Client()
 mqttc.on_publish = on_publish
 mqttc.on_disconnect = on_disconnect
+mqttc.on_connect = on_connect
 if (MQTT_USEAUTH):
-    print ("USE AUTH")
     mqttc.username_pw_set(username=MQTT_USERNAME,password=MQTT_PASSWORD)
-mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, MQTT_TIMEOUT)
+mqttc.connect(MQTT_HOSTNAME, MQTT_PORT, 300)
 
 # udp socket to listen to
 s_client = socket(AF_INET, SOCK_DGRAM)
