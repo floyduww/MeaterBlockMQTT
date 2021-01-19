@@ -122,6 +122,14 @@ Cook broken up with major seperators as first byte
 `42` 0e 08 8e 01 10 f6 12 18 8e 01 20 01 28 a0 03  
 `4a` 08 76 31 2e 30 2e 35 5f 32 
 
+###### Cooking Stages  
+01 - unknown  
+02 - cooking  
+03 - remove from heat  
+04 - resting  
+05 - unknown  
+06 - ready
+
 #### mqtt topics  
 meater/probe/{id}/meatType  
 meater/probe/{id}/targetTemp  
