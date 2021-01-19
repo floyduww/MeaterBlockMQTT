@@ -72,6 +72,7 @@ def probe_data(probe):
     probeArr["cooking"] = "0" + str(probe.cook_data.cook_stage)
     probeArr["m_temp"] = math.floor(toScale(probe.current_temps.m_temp_raw))  
     probeArr["a_temp"] = math.floor(toScale(probe.current_temps.a_temp_raw))
+    probeArr["est_time_rem"] = timeRemInMin(probe.current_temps.est_time_rem_raw)
     probeArr["version"] = probe.fw_version
     probeArr["targ_temp"] = 0
     probeArr["cook_name"] = ""
@@ -107,6 +108,12 @@ def toScale(value):
         return toFahrenheit(value)
     else:
         return toCelsius(value)
+
+
+def timeRemInMin(value):
+    
+    timeRem = math.ceil(value / (2*60))
+    return timeRem
 
 
 def on_publish(client, userdata, mid):
@@ -197,6 +204,7 @@ def processPacket(packet):
         mqttc.publish(topicTargetTemp.substitute(id=id), probe["targ_temp"], qos=0, retain=True)
         mqttc.publish(topicMeat.substitute(id=id), probe["m_temp"], qos=0, retain=True)
         mqttc.publish(topicAmbient.substitute(id=id), probe["a_temp"], qos=0, retain=True)
+        mqttc.publish(topicTimeRem.substitute(id=id), probe["est_time_rem"], qos=0, retain=True)
 
 
 # mqtt setup and connect
@@ -226,6 +234,7 @@ topicTargetTemp = Template("meater/probe/$id/targetTemp")
 topicMeat = Template("meater/probe/$id/meat")
 topicAmbient = Template("meater/probe/$id/ambient")
 topicCookName = Template("meater/probe/$id/cookName")
+topicTimeRem =  Template("meater/probe/$id/estTimeRem")
 topicBlockStatus = "meater/block/status"
 topicBlockPower = "meater/block/power"
 

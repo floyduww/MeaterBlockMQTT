@@ -72,7 +72,7 @@ message CurrentTemps {
     optional int32 m_temp_raw = 1;
     optional int32 a_temp_raw = 2;
     optional int32 pk_temp_raw = 3;
-    optional int32 part4 = 4;
+    optional int32 est_time_rem_raw = 4;
     optional int32 cook_counter = 5;
 }
 
