@@ -19,6 +19,7 @@ python meater_reader_buf.py
 ```
 Note: meater_reader_v2.py and meater_link.py have been depricated.
 
+A Docker containter is also available https://hub.docker.com/r/floyduww/meater_reader_mqtt , however only for am64 at the moment.
 ### Sources
 
 https://tvwbb.com/threads/meater-wire-free-probe-intergration.71564/
