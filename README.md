@@ -19,6 +19,7 @@ python meater_reader_buf.py
 ```
 Note: meater_reader_v2.py and meater_link.py have been depricated.
 
+A Docker containter is also available https://hub.docker.com/r/floyduww/meater_reader_mqtt , however only for am64 at the moment.
 ### Sources
 
 https://tvwbb.com/threads/meater-wire-free-probe-intergration.71564/
@@ -121,6 +122,14 @@ Cook broken up with major seperators as first byte
 `39` 10 64 83 18 1f 84 00 60  
 `42` 0e 08 8e 01 10 f6 12 18 8e 01 20 01 28 a0 03  
 `4a` 08 76 31 2e 30 2e 35 5f 32 
+
+###### Cooking Stages  
+01 - unknown  
+02 - cooking  
+03 - remove from heat  
+04 - resting  
+05 - unknown  
+06 - ready
 
 #### mqtt topics  
 meater/probe/{id}/meatType  
