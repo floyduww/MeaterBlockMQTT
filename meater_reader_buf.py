@@ -9,7 +9,7 @@ import ast
 from configparser import ConfigParser
 import sys,os
 
-import protobuf.meater_block_pb2
+import protobuf.meater_block_v2_pb2
 
 sys.path.append(os.getcwd())
 
@@ -17,7 +17,7 @@ UDP_IP = "255.255.255.255"
 
 
 # This is to build the device broadcast string. 
-thisDevice = protobuf.meater_block_pb2.MeaterLink()
+thisDevice = protobuf.meater_block_v2_pb2.MeaterLink()
 thisDevice.device.part1 = 21578
 thisDevice.device.part2 = 12
 thisDevice.device.device_type = 3
@@ -64,26 +64,35 @@ if (not SCALE):
 if (not MEAT_TABLE_FILE):
     MEAT_TABLE_FILE = config.get('block', 'MEAT_TABLE_FILE', fallback="meat_table.txt")
 
-def probe_data(probe):
+def probe_data(probe,battery):
     probeArr = {}
 
-    probeArr["batt"] = probe.battery
-    probeArr["sig"] = probe.ble_signal
-    probeArr["cooking"] = "0" + str(probe.cook_data.cook_stage)
+    print(battery.battery)
+
+    probeArr["batt"] =  int(battery.battery)
+  #  probeArr["sig"] = probe.ble_signal
+   
+
+    if  hasattr(probe.part3,'cook_stage') :
+        
+        cook_stage = probe.part3.cook_stage
+    else :
+        cook_stage = 0
+    
+    probeArr["cooking"] = "0" + str(cook_stage)
     probeArr["m_temp"] = math.floor(toScale(probe.current_temps.m_temp_raw))  
     probeArr["a_temp"] = math.floor(toScale(probe.current_temps.a_temp_raw))
     probeArr["est_time_rem"] = timeRemInMin(probe.current_temps.est_time_rem_raw)
-    probeArr["version"] = probe.fw_version
     probeArr["targ_temp"] = 0
     probeArr["cook_name"] = ""
     probeArr["meat_type"] = ""
 
-    if(probe.cook_data.cook_stage != 0):
-        probeArr["targ_temp"] = math.floor(toScale(probe.cook_data.targ_temp_raw * 2))
-        probeArr["meat_type"] = probe.cook_data.meat_type_int
+    if(cook_stage != 0):
+        probeArr["targ_temp"] = math.floor(toScale(probe.part3.targ_temp_raw))
+        probeArr["meat_type"] = probe.part3.meat_type_int
         
-        if (len(probe.cook_data.cook_name) > 0):
-            probeArr["cook_name"] = probe.cook_data.cook_name
+        if (len(probe.part3.cook_name) > 0):
+            probeArr["cook_name"] = probe.part3.cook_name
         else:
             if probeArr["meat_type"] in dictionary.keys():
                 probeArr["cook_name"] = dictionary[probeArr["meat_type"]]
@@ -94,7 +103,7 @@ def probe_data(probe):
     
 
 def toCelsius(value):
-    return (float(value))/32.0
+    return (float(value))/64.0
 
 
 def toFahrenheit(value):
@@ -162,7 +171,7 @@ def processPacket(packet):
     print('len(packet[1])='+str(len(packet[1])))
     print(packet[1])
 
-    meater_link = protobuf.meater_block_pb2.MeaterLink()
+    meater_link = protobuf.meater_block_v2_pb2.MeaterLink()
     print(packet[0].hex())
     meater_link.ParseFromString(packet[0])
     print("---meater_link---")
@@ -171,7 +180,9 @@ def processPacket(packet):
  
     if (meater_link.HasField('linkData')):
         print("I have data")
+      
     else:
+        return False   # THIS IS FOR TESTING
         # this is for the handshake when using a meater or meater+
         # some_int needs a more descriptive variable name
         if (meater_link.HasField('queryData')):
@@ -181,22 +192,41 @@ def processPacket(packet):
         print("Move along")
         return False
 
+
+
     blockStatus = sendBlockOn()
     lastReceive = time.time()
 
     probes = {}
 
     block_power = meater_link.linkData.part3.blockInfo.power
+
+    versions = [] 
+    versions = meater_link.linkData.part3.versions
+
+    batteries = []
+    batteries = meater_link.linkData.part3.batteryInfo
+
     mqttc.publish(topicBlockPower, str(block_power), qos=0, retain=True)
 
-    probe_num = 0
+
+    
+
+    probe_num = int(versions[1].split('_')[1]) 
+    pos = 1
+
     for probe in meater_link.linkData.part3.probe:
+         
+       #  if (probe.connected):
+         probes[probe_num] = probe_data(probe, batteries[pos])
          probe_num = probe_num + 1
-         if (probe.connected):
-            probes[probe_num] = probe_data(probe)
+         pos = pos + 1
 
     for id in probes:
         probe = probes[id]
+
+        print("publish")
+        print(probe)
         mqttc.publish(topicCook.substitute(id=id), probe["cooking"], qos=0, retain=True)
         mqttc.publish(topicBattery.substitute(id=id), probe["batt"], qos=0, retain=True)
         mqttc.publish(topicCookName.substitute(id=id), probe["cook_name"], qos=0, retain=True)

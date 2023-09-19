@@ -1,0 +1,121 @@
+syntax = "proto2";
+
+package meater_link;
+
+message MeaterLink {
+  required DeviceData device = 1;
+  optional Query queryData = 2;
+  optional LinkData linkData = 3;
+  
+}
+
+message DeviceData {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;
+    optional int32 device_type = 3;
+    optional int32 inc = 4;
+    optional fixed64 device_mac = 5;
+}
+
+message Query {
+    repeated fixed64 known_macs = 1;
+    optional int32 part2_int = 2;
+    optional string device = 4;
+    optional string sw_version = 5;
+    optional string part6_str = 6;
+}
+
+message LinkData {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;    
+    optional Probes part3 = 3;  
+}
+
+message Probes {
+  repeated Probe probe = 1;
+  optional BlockInfo blockInfo = 3;
+  repeated fixed64 part5 = 5;
+  repeated int32 part6 = 6;
+  repeated part7array batteryInfo = 7;
+  repeated string versions = 8;
+  repeated int32 part9 = 9;
+  repeated int32 part10 = 10;
+  repeated int32 part11 = 11;
+}
+
+message part7array {
+  optional int32 part7_part1 = 1;
+    optional int32 battery = 2;
+      optional int32 part7_part3 = 3;
+}
+message BlockInfo {
+    repeated ProbeShort block_mac = 1;   
+    optional int32 power = 2;    
+ //   optional fixed64 part3 = 3;    
+}
+
+message Probe {
+    optional fixed64 probe_mac = 1;   
+    optional fixed64 device_mac = 2;    
+    optional ProbeParts part3 = 3;    
+    optional CurrentTemps current_temps = 4; 
+}
+
+message ProbeParts {
+    optional int32 num_adj = 1;
+    optional int32 cook_stage = 2;
+    optional int32 targ_temp_raw = 3;
+    optional MoreProbePartsShort part4 = 4;
+    optional int32 meat_type_int = 5;
+    optional int32 part6 = 6;
+    optional CookParts cook = 8;
+    optional string cook_name = 9;
+    repeated CookOptions cookOpts = 10;
+    optional int32   part11 = 11;
+    optional fixed64 part12 = 12;
+    optional int32 battery = 99;
+}
+message MoreProbePartsShort {
+    optional int32 ms_part1 = 1;
+    optional int32 ms_part2 = 2;
+}
+
+message CurrentTemps {
+    optional int32 m_temp_raw = 1;
+    optional int32 a_temp_raw = 2;
+    optional int32 pk_temp_raw = 3;
+    optional int32 est_time_rem_raw = 4;
+    optional int32 cook_counter = 5;
+    optional int32 ml_part6 = 6;
+ //   optional string ml_part7 = 7;
+}
+
+message CookParts {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;
+    optional int32 part3 = 3;
+    optional int32 part4 = 4;
+}
+
+message CookOptions {
+    optional int32 part1 = 1;
+    optional int32 part2 = 2;
+    optional int32 part3 = 3;
+} 
+message ProbeShort {
+  optional fixed64 probe_mac = 1;
+  optional int32 probe_id = 2;
+  }
+
+
+  
+
+
+
+
+
+
+
+
+
+
