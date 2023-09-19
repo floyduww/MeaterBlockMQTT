@@ -9,6 +9,8 @@ ADD meat_table_long.txt /meater
 ADD meater_reader_buf.py /meater
 ADD protobuf/meater_block.proto /meater/protobuf/
 ADD protobuf/meater_block_pb2.py /meater/protobuf/
+ADD protobuf/meater_block_v2.proto /meater/protobuf/
+ADD protobuf/meater_block_v2_pb2.py /meater/protobuf/
 
 
 RUN apk add --update && \
